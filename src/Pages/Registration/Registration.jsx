@@ -1,13 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import bloodDrop_img from "../../assets/images/blood_drop.png";
 import districts from "../../data/districts.json";
 import upazillas from "../../data/upazillas.json";
 import axios from "axios";
+import { AuthContext } from "../../providers/AuthProvider";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
 
 export default function Registration() {
+  const axiosPublic = useAxiosPublic();
+  const { createUser, updateProfileInfo } = useContext(AuthContext);
+  const navigate = useNavigate();
+
   const allDistricts = districts[2]?.data;
   const allUpazillas = upazillas[2]?.data;
 
@@ -66,13 +74,32 @@ export default function Registration() {
           name: form.name.value,
           email: form.email.value,
           bloodGroup: form.bloodGroup.value,
-          password: form.password.value,
           district: district.name,
           upazilla: form.upazilla.value,
           role: "donor",
+          status: "active",
           image: response.data.data.display_url,
         };
         console.log(newUser);
+        createUser(newUser.email, form.password.value)
+          .then((result) => {
+            updateProfileInfo(newUser.name, newUser.image);
+            console.log("logged user", result.user);
+            axiosPublic.post("/users", newUser).then((res) => {
+              console.log(res);
+            });
+            Swal.fire({
+              icon: "success",
+              title: "User created successfully!",
+              showConfirmButton: false,
+              timer: 1500,
+            }).then(() => {
+              navigate("/");
+            });
+          })
+          .catch((error) => {
+            alert(error);
+          });
       }
     } catch (error) {
       console.error("error uploading image:", error);
@@ -156,35 +183,22 @@ export default function Registration() {
             </div>
 
             <div>
-              <label
-                htmlFor=""
-                className="block text-gray-700 font-medium mb-2"
-              >
-                Profile Image
-              </label>
-              <div className="">
-                {/* Hidden file input */}
+              <div>
+                <label
+                  htmlFor=""
+                  className="block text-gray-700 font-medium mb-2"
+                >
+                  Profile Image
+                </label>
                 <input
                   id="profile-image"
                   name="profile-image"
                   type="file"
                   accept="image/*"
                   onChange={handleFileChange}
-                  className="sr-only ml-14 mt-10"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
                   required
                 />
-                {/* Custom button */}
-                <label
-                  htmlFor="profile-image"
-                  className="inline-block px-4 py-2 text-white bg-blue-500 rounded-lg cursor-pointer hover:bg-blue-600 focus:ring focus:ring-blue-300"
-                >
-                  Choose File
-                </label>
-                {photo && (
-                  <label htmlFor="profile-image" className="inline-block ml-4">
-                    {photo.name}
-                  </label>
-                )}
               </div>
             </div>
 
@@ -286,6 +300,10 @@ export default function Registration() {
               Register
             </button>
           </form>
+          <p className="text-center mt-4">
+            Already a user? Please{" "}
+            <span className="text-blue-500 hover:underline">login.</span>{" "}
+          </p>
         </div>
 
         {/* Right Section: Image */}

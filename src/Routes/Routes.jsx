@@ -4,6 +4,9 @@ import {
 import MainLayout from "../Layout/MainLayout";
 import Home from "../Pages/Home/Home";
 import Registration from "../Pages/Registration/Registration";
+import Login from "../Pages/Home/Login/Login";
+import Dashboard from "../Pages/Dashboard/Dashboard";
+import Profile from "../Pages/Shared/Profile";
 
   export const router = createBrowserRouter([
     {
@@ -17,7 +20,21 @@ import Registration from "../Pages/Registration/Registration";
         {
           path:"/registration",
           element:<Registration></Registration>
+        },
+        {
+          path:"/login",
+          element:<Login></Login>
         }
       ]
     },
+    {
+      path: "/dashboard",
+      element:<Dashboard></Dashboard>,
+      children:[
+        {
+          path: "/dashboard/profile",
+          element:<Profile></Profile>
+        }
+      ]
+    }
   ]);
