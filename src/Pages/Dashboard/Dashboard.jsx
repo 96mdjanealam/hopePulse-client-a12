@@ -15,12 +15,22 @@ const Dashboard = () => {
       <ul className="text-lg">
         <li className="mb-4">
           <Link to="/" className="hover:text-gray-200">
-            Home
+            Home Page
+          </Link>
+        </li>
+        <li className="mb-4">
+          <Link to="/dashboard" className="hover:text-gray-200">
+            Dashboard
           </Link>
         </li>
         <li className="mb-4">
           <Link to="/dashboard/profile" className="hover:text-gray-200">
             Profile
+          </Link>
+        </li>
+        <li className="mb-4">
+          <Link to="/dashboard/createDonation" className="hover:text-gray-200">
+            Create Donation Request
           </Link>
         </li>
         <li className="mb-4">

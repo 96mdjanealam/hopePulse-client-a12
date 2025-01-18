@@ -7,6 +7,8 @@ import Registration from "../Pages/Registration/Registration";
 import Login from "../Pages/Home/Login/Login";
 import Dashboard from "../Pages/Dashboard/Dashboard";
 import Profile from "../Pages/Shared/Profile";
+import DashboardHome from "../Pages/Dashboard/DashboardHome";
+import CreateDonation from "../Pages/Dashboard/CreateDonation";
 
   export const router = createBrowserRouter([
     {
@@ -32,8 +34,16 @@ import Profile from "../Pages/Shared/Profile";
       element:<Dashboard></Dashboard>,
       children:[
         {
+          path:"/dashboard",
+          element: <DashboardHome></DashboardHome>
+        },
+        {
           path: "/dashboard/profile",
           element:<Profile></Profile>
+        },
+        {
+          path: "/dashboard/createDonation",
+          element:<CreateDonation></CreateDonation>
         }
       ]
     }
