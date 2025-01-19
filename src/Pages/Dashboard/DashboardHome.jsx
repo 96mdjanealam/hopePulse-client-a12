@@ -94,7 +94,7 @@ export default function DashboardHome() {
                   {`${item.upazilla}, ${item.district}`}
                 </td>
                 <td className="border border-gray-300 px-4 py-2">
-                  {format(new Date(item.date), "yyyy-MM-dd")}
+                  {format(new Date(item.date), "MM-dd-yyyy")}
                 </td>
                 <td className="border border-gray-300 px-4 py-2">
                   {item.time}

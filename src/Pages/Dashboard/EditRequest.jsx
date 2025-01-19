@@ -1,14 +1,14 @@
-import { useParams } from 'react-router-dom';
-import useAxiosSecure from '../../hooks/useAxiosSecure';
-import React, { useContext, useEffect, useState } from 'react';
-import districts from '../../data/districts.json';
-import upazillas from '../../data/upazillas.json';
-import { AuthContext } from '../../providers/AuthProvider';
-import Swal from 'sweetalert2';
+import { useParams } from "react-router-dom";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
+import React, { useContext, useEffect, useState } from "react";
+import districts from "../../data/districts.json";
+import upazillas from "../../data/upazillas.json";
+import { AuthContext } from "../../providers/AuthProvider";
+import Swal from "sweetalert2";
 
 const allDistricts = districts[2]?.data;
 const allUpazillas = upazillas[2]?.data;
-const bloodGroups = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
+const bloodGroups = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
 
 export default function EditRequest() {
   const { user } = useContext(AuthContext);
@@ -18,31 +18,81 @@ export default function EditRequest() {
   const [donationRequest, setDonationRequest] = useState(null);
   const [districtUpazillas, setDistrictUpazillas] = useState([]);
 
+
   useEffect(() => {
     axiosSecure
       .get(`/donationRequest/${params.id}`)
-      .then((res) => setDonationRequest(res.data))
+      .then((res) => {
+        setDonationRequest(res.data);
+
+     
+        const selectedDistrict = res.data.district;
+        if (selectedDistrict) {
+          const selectedDistrictData = allDistricts.find(
+            (district) => district.name === selectedDistrict
+          );
+          if (selectedDistrictData) {
+            const filteredUpazillas = allUpazillas.filter(
+              (upazilla) => upazilla.district_id === selectedDistrictData.id
+            );
+            setDistrictUpazillas(filteredUpazillas);
+          }
+        }
+      })
       .catch((err) => console.error(err));
   }, [axiosSecure, params.id]);
 
   const handleDistrict = (e) => {
-    const selectedId = e.target.value;
-    const upazillas = allUpazillas.filter(
-      (item) => item.district_id === selectedId
+    const selectedDistrict = e.target.value;
+
+    const selectedDistrictData = allDistricts.find(
+      (district) => district.name === selectedDistrict
     );
-    setDistrictUpazillas(upazillas);
+
+    if (selectedDistrictData) {
+      const filteredUpazillas = allUpazillas.filter(
+        (upazilla) => upazilla.district_id === selectedDistrictData.id
+      );
+      setDistrictUpazillas(filteredUpazillas);
+    }
+
+    setDonationRequest((prev) => ({
+      ...prev,
+      district: selectedDistrict,
+      upazilla: "", 
+    }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Form submitted');
+    console.log("Form submitted", donationRequest);
+
+    axiosSecure.patch(`/requestUpdate/${params.id}`,donationRequest).then((res)=>{
+      console.log(res.data)
+      if(res.data.modifiedCount){
+        Swal.fire({
+          icon: "success",
+          title: "Your work has been saved",
+          showConfirmButton: false,
+          timer: 1500
+        });
+      }else if(!res.data.modifiedCount){
+        Swal.fire({
+          icon: "error",
+          title: "No changes made!",
+          showConfirmButton: false,
+          timer: 1500
+        });
+      }
+    }).catch((err)=>{
+      console.log(err);
+    })
   };
 
   if (!donationRequest) return <p>Loading...</p>;
 
   return (
     <div>
-      <p>EditRequest</p>
       <div className="bg-white p-6 rounded-lg shadow-lg w-full mt-8 sm:mt-0">
         <h2 className="text-2xl font-bold text-gray-800 mb-6">
           Edit Donation Request
@@ -55,7 +105,7 @@ export default function EditRequest() {
             <input
               type="text"
               name="requesterName"
-              value={user?.displayName || ''}
+              value={user?.displayName || ""}
               readOnly
               className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-200"
             />
@@ -68,7 +118,7 @@ export default function EditRequest() {
             <input
               type="email"
               name="requesterEmail"
-              value={user?.email || ''}
+              value={user?.email || ""}
               readOnly
               className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-200"
             />
@@ -81,9 +131,16 @@ export default function EditRequest() {
             <input
               type="text"
               defaultValue={donationRequest.recipientName}
+              onChange={(e) =>
+                setDonationRequest((prev) => ({
+                  ...prev,
+                  recipientName: e.target.value,
+                }))
+              }
               name="recipientName"
               className="w-full px-4 py-2 border border-gray-300 rounded-lg"
               placeholder="Write recipient name"
+              required
             />
           </div>
 
@@ -95,14 +152,15 @@ export default function EditRequest() {
               <select
                 name="district"
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg"
-                defaultValue={donationRequest.districtId || ''}
+                defaultValue={donationRequest.district || ""}
                 onChange={handleDistrict}
+                required
               >
                 <option value="" disabled>
                   Select district
                 </option>
                 {allDistricts.map((item) => (
-                  <option key={item.id} value={item.id}>
+                  <option key={item.id} value={item.name}>
                     {item.name}
                   </option>
                 ))}
@@ -116,7 +174,14 @@ export default function EditRequest() {
               <select
                 name="upazilla"
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg"
-                defaultValue={donationRequest.upazilla || ''}
+                value={donationRequest.upazilla || ""}
+                onChange={(e) =>
+                  setDonationRequest((prev) => ({
+                    ...prev,
+                    upazilla: e.target.value,
+                  }))
+                }
+                required
               >
                 <option value="" disabled>
                   Select upazilla
@@ -131,39 +196,53 @@ export default function EditRequest() {
           </div>
 
           <div className="flex gap-4">
-            <div className="w-1/2">
-              <label className="block text-gray-700 font-medium mb-2">
-                Hospital Name
-              </label>
-              <input
-                type="text"
-                name="hospital"
-                defaultValue={donationRequest.hospital || ''}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg"
-                placeholder="Hospital name"
-              />
-            </div>
+    <div className="w-1/2">
+      <label className="block text-gray-700 font-medium mb-2">
+        Hospital Name
+      </label>
+      <input
+        type="text"
+        name="hospitalName"
+        className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+        placeholder="Enter hospital name"
+        defaultValue={donationRequest.hospital || ""}
+        onChange={(e) =>
+          setDonationRequest((prev) => ({
+            ...prev,
+            hospital: e.target.value,
+          }))
+        }
+        required
+      />
+    </div>
 
-            <div className="w-1/2">
-              <label className="block text-gray-700 font-medium mb-2">
-                Blood Group
-              </label>
-              <select
-                name="bloodGroup"
-                defaultValue={donationRequest.bloodGroup || ''}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg"
-              >
-                <option value="" disabled>
-                  Select blood group
-                </option>
-                {bloodGroups.map((group, index) => (
-                  <option key={index} value={group}>
-                    {group}
-                  </option>
-                ))}
-              </select>
-            </div>
-          </div>
+    <div className="w-1/2">
+      <label className="block text-gray-700 font-medium mb-2">
+        Blood Group
+      </label>
+      <select
+        name="bloodGroup"
+        className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+        defaultValue={donationRequest.bloodGroup || ""}
+        onChange={(e) =>
+          setDonationRequest((prev) => ({
+            ...prev,
+            bloodGroup: e.target.value,
+          }))
+        }
+        required
+      >
+        <option value="" disabled>
+          Select blood group
+        </option>
+        {bloodGroups.map((group) => (
+          <option key={group} value={group}>
+            {group}
+          </option>
+        ))}
+      </select>
+    </div>
+  </div>
 
           <div>
             <label className="block text-gray-700 font-medium mb-2">
@@ -171,51 +250,78 @@ export default function EditRequest() {
             </label>
             <input
               type="text"
-              name="fullAddress"
-              defaultValue={donationRequest.fullAddress || ''}
+              name="hospitalAddress"
               className="w-full px-4 py-2 border border-gray-300 rounded-lg"
-              placeholder="(e.g., Zahir Raihan Rd, Dhaka)"
+              placeholder="Enter hospital address"
+              defaultValue={donationRequest.fullAddress || ""}
+              onChange={(e) =>
+                setDonationRequest((prev) => ({
+                  ...prev,
+                  fullAddress: e.target.value,
+                }))
+              }
+              required
             />
           </div>
 
           <div className="flex gap-4">
-            <div className="w-1/2">
-              <label className="block text-gray-700 font-medium mb-2">Date</label>
-              <input
-                type="date"
-                name="date"
-                defaultValue={donationRequest.date || ''}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg"
-              />
-            </div>
+    <div className="w-1/2">
+      <label className="block text-gray-700 font-medium mb-2">Date</label>
+      <input
+        type="date"
+        name="date"
+        className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+        defaultValue={donationRequest.date || ""}
+        onChange={(e) =>
+          setDonationRequest((prev) => ({
+            ...prev,
+            date: e.target.value,
+          }))
+        }
+        required
+      />
+    </div>
 
-            <div className="w-1/2">
-              <label className="block text-gray-700 font-medium mb-2">Time</label>
-              <input
-                type="time"
-                name="time"
-                defaultValue={donationRequest.time || ''}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg"
-              />
-            </div>
-          </div>
+    <div className="w-1/2">
+      <label className="block text-gray-700 font-medium mb-2">Time</label>
+      <input
+        type="time"
+        name="time"
+        className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+        defaultValue={donationRequest.time || ""}
+        onChange={(e) =>
+          setDonationRequest((prev) => ({
+            ...prev,
+            time: e.target.value,
+          }))
+        }
+        required
+      />
+    </div>
+  </div>
 
           <div>
             <label className="block text-gray-700 font-medium mb-2">
               Requester Message
             </label>
             <textarea
-              name="message"
-              defaultValue={donationRequest.message || ''}
+              name="notes"
               className="w-full px-4 py-2 border border-gray-300 rounded-lg"
-              placeholder="Write your message here."
-              rows="2"
+              placeholder="Enter additional notes"
+              defaultValue={donationRequest.message || ""}
+              onChange={(e) =>
+                setDonationRequest((prev) => ({
+                  ...prev,
+                  message: e.target.value,
+                }))
+              }
+              required
             ></textarea>
           </div>
 
           <button
             type="submit"
-            className="w-full bg-red-600 text-white py-3 px-6 rounded-lg hover:bg-red-700 transition"
+            className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-200"
           >
             Update Request
           </button>
