@@ -9,6 +9,8 @@ import Dashboard from "../Pages/Dashboard/Dashboard";
 import Profile from "../Pages/Shared/Profile";
 import DashboardHome from "../Pages/Dashboard/DashboardHome";
 import CreateDonation from "../Pages/Dashboard/CreateDonation";
+import ViewRequest from "../Pages/Dashboard/ViewRequest";
+import EditRequest from "../Pages/Dashboard/EditRequest";
 
   export const router = createBrowserRouter([
     {
@@ -44,6 +46,14 @@ import CreateDonation from "../Pages/Dashboard/CreateDonation";
         {
           path: "/dashboard/createDonation",
           element:<CreateDonation></CreateDonation>
+        },
+        {
+          path: "/dashboard/request/edit/:id",
+          element: <EditRequest></EditRequest>
+        },
+        {
+          path:"/dashboard/request/view/:id",
+          element:<ViewRequest></ViewRequest>
         }
       ]
     }
