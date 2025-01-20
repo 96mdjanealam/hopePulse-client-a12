@@ -76,7 +76,7 @@ export default function Registration() {
           bloodGroup: form.bloodGroup.value,
           district: district.name,
           upazilla: form.upazilla.value,
-          role: "donor",
+          role: "Donor",
           status: "active",
           image: response.data.data.display_url,
         };

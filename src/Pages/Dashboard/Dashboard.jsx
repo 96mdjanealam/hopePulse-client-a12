@@ -14,7 +14,7 @@ const Dashboard = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
-  const [isAdmin, setIsAdmin] = useState(true)
+  // const [isAdmin, setIsAdmin] = useState(false)
 
   // console.log(userInfo.role);
   // if(userInfo.role==="admin"){
@@ -41,6 +41,11 @@ const Dashboard = () => {
           </Link>
         </li>
         <li className="mb-4">
+          <Link to="/dashboard/all-users" className="hover:text-gray-200">
+            All Users
+          </Link>
+        </li>
+        <li className="mb-4">
           <Link to="/dashboard/createDonation" className="hover:text-gray-200">
             Create Donation Request
           </Link>
@@ -48,6 +53,11 @@ const Dashboard = () => {
         <li className="mb-4">
           <Link to="/dashboard/my-donation-requests" className="hover:text-gray-200">
             My Donation Requests
+          </Link>
+        </li>
+        <li className="mb-4">
+          <Link to="/dashboard/all-donation-requests" className="hover:text-gray-200">
+            All Donation Requests
           </Link>
         </li>
         <li className="mb-4">

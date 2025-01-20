@@ -12,6 +12,8 @@ import CreateDonation from "../Pages/Dashboard/CreateDonation";
 import ViewRequest from "../Pages/Dashboard/ViewRequest";
 import EditRequest from "../Pages/Dashboard/EditRequest";
 import MyDonationRequests from "../Pages/Dashboard/MyDonationRequests";
+import AllDonationRequests from "../Pages/Dashboard/AllDonationRequests";
+import AllUsers from "../Pages/Dashboard/AllUsers";
 
   export const router = createBrowserRouter([
     {
@@ -59,6 +61,14 @@ import MyDonationRequests from "../Pages/Dashboard/MyDonationRequests";
         {
           path:"/dashboard/my-donation-requests",
           element:<MyDonationRequests></MyDonationRequests>
+        },
+        {
+          path:"/dashboard/all-donation-requests",
+          element:<AllDonationRequests></AllDonationRequests>
+        },
+        {
+          path:"/dashboard/all-users",
+          element: <AllUsers></AllUsers>
         }
       ]
     }
