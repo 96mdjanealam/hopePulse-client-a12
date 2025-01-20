@@ -34,6 +34,11 @@ const Dashboard = () => {
           </Link>
         </li>
         <li className="mb-4">
+          <Link to="/dashboard/my-donation-requests" className="hover:text-gray-200">
+            My Donation Requests
+          </Link>
+        </li>
+        <li className="mb-4">
           <Link to="/settings" className="hover:text-gray-200">
             Settings
           </Link>
