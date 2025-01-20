@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useReducer, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import districts from "../../data/districts.json";
 import upazillas from "../../data/upazillas.json";
 import axios from "axios";

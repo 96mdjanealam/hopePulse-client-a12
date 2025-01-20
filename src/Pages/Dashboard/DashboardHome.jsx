@@ -4,11 +4,27 @@ import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { format } from "date-fns";
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
+import { FaUsers, FaDollarSign, FaHandHoldingHeart } from "react-icons/fa";
+import useAllUsers from "../../hooks/useAllUsers";
+import useAllDonationRequests from "../../hooks/useAllDonationRequests";
 
 export default function DashboardHome() {
   const { user } = useContext(AuthContext);
   const axiosSecure = useAxiosSecure();
   const [tableData, setTableData] = useState([]);
+  const allUsers = useAllUsers();
+  const allDonationRequests = useAllDonationRequests();
+
+  console.log(allDonationRequests)
+
+  const { userInfo } = useContext(AuthContext);
+  console.log(userInfo);
+  const [isAdmin, setIsAdmin] = useState(true);
+
+  // console.log(userInfo.role);
+  // if(userInfo.role==="admin"){
+  //   setIsAdmin(true)
+  // }
 
   useEffect(() => {
     axiosSecure
@@ -34,7 +50,9 @@ export default function DashboardHome() {
           .delete(`/requestDelete/${id}`)
           .then((res) => {
             console.log(res.data);
-            setTableData((prevData) => prevData.filter((item) => item._id !== id));
+            setTableData((prevData) =>
+              prevData.filter((item) => item._id !== id)
+            );
             Swal.fire({
               title: "Deleted!",
               text: "Your file has been deleted.",
@@ -52,91 +70,135 @@ export default function DashboardHome() {
 
   return (
     <div className="bg-white p-6  rounded-lg shadow-lg w-full mt-8 sm:mt-0">
-          <h2 className="text-2xl font-bold text-gray-800 mb-6">
-            Dashboard Home
-          </h2>
-          <div className="overflow-x-auto">
-            <table className="table-auto border border-gray-300">
-              <thead>
-                <tr className="bg-gray-100 text-left text-sm">
-                  <th className="border border-gray-300 px-4 py-2">
-                    Recipient Name
-                  </th>
-                  <th className="border border-gray-300 px-4 py-2">
-                    Recipient Location
-                  </th>
-                  <th className="border border-gray-300 px-4 py-2">
-                    Donation Date
-                  </th>
-                  <th className="border border-gray-300 px-4 py-2">
-                    Donation Time
-                  </th>
-                  <th className="border border-gray-300 px-4 py-2">Blood Group</th>
-                  <th className="border border-gray-300 px-4 py-2">
-                    Donor Information
-                  </th>
-                  <th className="border border-gray-300 px-4 py-2">
-                    Donation Status
-                  </th>
-                  <th className="border border-gray-300 px-4 py-2">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {tableData.map((item) => (
-                  <tr key={item._id}>
-                    <td className="border border-gray-300 px-4 py-2">
-                      {item.recipientName}
-                    </td>
-                    <td className="border border-gray-300 px-4 py-2">
-                      {`${item.upazilla}, ${item.district}`}
-                    </td>
-                    <td className="border border-gray-300 px-4 py-2">
-                      {format(new Date(item.date), "MM-dd-yyyy")}
-                    </td>
-                    <td className="border border-gray-300 px-4 py-2">
-                      {item.time}
-                    </td>
-                    <td className="border border-gray-300 px-4 py-2">
-                      {item.bloodGroup}
-                    </td>
-                    <td className="border border-gray-300 px-4 py-2">
-                      {item.donorInformation}
-                    </td>
-                    <td className="border border-gray-300 px-4 py-2">
-                      {item.donationStatus}
-                    </td>
-                    <td className="border border-gray-300 px-4 py-2 flex flex-wrap gap-2">
-                      <button className="bg-green-500 text-white px-2 py-1 rounded">
-                        Done
-                      </button>
-                      <button className="bg-red-500 text-white px-2 py-1 rounded">
-                        Cancel
-                      </button>
-    
-                      <Link to={`/dashboard/request/edit/${item._id}`}>
-                        <button className="bg-blue-500 text-white px-2 py-1 rounded">
-                          Edit
-                        </button>
-                      </Link>
-    
-                      <button
-                        onClick={() => handleDelete(item._id)}
-                        className="bg-gray-500 text-white px-2 py-1 rounded"
-                      >
-                        Delete
-                      </button>
-    
-                      <Link to={`/dashboard/request/view/${item._id}`}>
-                        <button className="bg-purple-500 text-white px-2 py-1 rounded">
-                          View
-                        </button>
-                      </Link>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+      <h2 className="text-2xl font-bold text-gray-800 mb-6">Dashboard Home</h2>
+
+      {isAdmin ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
+          {/* Total Users Card */}
+          <div className="bg-white shadow-lg rounded-lg p-6 flex items-center">
+            <div className="text-blue-500 text-4xl">
+              <FaUsers />
+            </div>
+            <div className="ml-4">
+              <h3 className="text-lg font-semibold text-gray-700">
+                Total Users
+              </h3>
+              <p className="text-2xl font-bold text-gray-900">{allUsers.length}</p>
+            </div>
+          </div>
+
+          {/* Total Funding Card */}
+          <div className="bg-white shadow-lg rounded-lg p-6 flex items-center">
+            <div className="text-green-500 text-4xl">
+              <FaDollarSign />
+            </div>
+            <div className="ml-4">
+              <h3 className="text-lg font-semibold text-gray-700">
+                Total Funding
+              </h3>
+              <p className="text-2xl font-bold text-gray-900">$567,890</p>
+            </div>
+          </div>
+
+          {/* Total Blood Donation Requests Card */}
+          <div className="bg-white shadow-lg rounded-lg p-6 flex items-center">
+            <div className="text-red-500 text-4xl">
+              <FaHandHoldingHeart />
+            </div>
+            <div className="ml-4">
+              <h3 className="text-lg font-semibold text-gray-700">
+                Blood Donation Requests
+              </h3>
+              <p className="text-2xl font-bold text-gray-900">{allDonationRequests.length}</p>
+            </div>
           </div>
         </div>
+      ) : (
+        <div className="overflow-x-auto">
+          <table className="table-auto border border-gray-300">
+            <thead>
+              <tr className="bg-gray-100 text-left text-sm">
+                <th className="border border-gray-300 px-4 py-2">
+                  Recipient Name
+                </th>
+                <th className="border border-gray-300 px-4 py-2">
+                  Recipient Location
+                </th>
+                <th className="border border-gray-300 px-4 py-2">
+                  Donation Date
+                </th>
+                <th className="border border-gray-300 px-4 py-2">
+                  Donation Time
+                </th>
+                <th className="border border-gray-300 px-4 py-2">
+                  Blood Group
+                </th>
+                <th className="border border-gray-300 px-4 py-2">
+                  Donor Information
+                </th>
+                <th className="border border-gray-300 px-4 py-2">
+                  Donation Status
+                </th>
+                <th className="border border-gray-300 px-4 py-2">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {tableData.map((item) => (
+                <tr key={item._id}>
+                  <td className="border border-gray-300 px-4 py-2">
+                    {item.recipientName}
+                  </td>
+                  <td className="border border-gray-300 px-4 py-2">
+                    {`${item.upazilla}, ${item.district}`}
+                  </td>
+                  <td className="border border-gray-300 px-4 py-2">
+                    {format(new Date(item.date), "MM-dd-yyyy")}
+                  </td>
+                  <td className="border border-gray-300 px-4 py-2">
+                    {item.time}
+                  </td>
+                  <td className="border border-gray-300 px-4 py-2">
+                    {item.bloodGroup}
+                  </td>
+                  <td className="border border-gray-300 px-4 py-2">
+                    {item.donorInformation}
+                  </td>
+                  <td className="border border-gray-300 px-4 py-2">
+                    {item.donationStatus}
+                  </td>
+                  <td className="border border-gray-300 px-4 py-2 flex flex-wrap gap-2">
+                    <button className="bg-green-500 text-white px-2 py-1 rounded">
+                      Done
+                    </button>
+                    <button className="bg-red-500 text-white px-2 py-1 rounded">
+                      Cancel
+                    </button>
+
+                    <Link to={`/dashboard/request/edit/${item._id}`}>
+                      <button className="bg-blue-500 text-white px-2 py-1 rounded">
+                        Edit
+                      </button>
+                    </Link>
+
+                    <button
+                      onClick={() => handleDelete(item._id)}
+                      className="bg-gray-500 text-white px-2 py-1 rounded"
+                    >
+                      Delete
+                    </button>
+
+                    <Link to={`/dashboard/request/view/${item._id}`}>
+                      <button className="bg-purple-500 text-white px-2 py-1 rounded">
+                        View
+                      </button>
+                    </Link>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </div>
   );
 }

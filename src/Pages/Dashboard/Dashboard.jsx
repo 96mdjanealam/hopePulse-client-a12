@@ -1,14 +1,26 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link, Outlet } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { AuthContext } from "../../providers/AuthProvider";
 
 const Dashboard = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
+  const {userInfo} = useContext(AuthContext)
+  console.log(userInfo);
+
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
+
+  const [isAdmin, setIsAdmin] = useState(true)
+
+  // console.log(userInfo.role);
+  // if(userInfo.role==="admin"){
+  //   setIsAdmin(true)
+  // }
+
 
   const links = (
     <>
