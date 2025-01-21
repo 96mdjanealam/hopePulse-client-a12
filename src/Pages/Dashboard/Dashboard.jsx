@@ -61,6 +61,11 @@ const Dashboard = () => {
           </Link>
         </li>
         <li className="mb-4">
+          <Link to="/dashboard/content-management" className="hover:text-gray-200">
+            Content Management
+          </Link>
+        </li>
+        <li className="mb-4">
           <Link to="/settings" className="hover:text-gray-200">
             Settings
           </Link>
