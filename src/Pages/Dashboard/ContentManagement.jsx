@@ -1,38 +1,37 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
+import { useQuery } from "@tanstack/react-query";
 
 export default function ContentManagement() {
   const axiosSecure = useAxiosSecure();
 
-  const [blogs, setBlogs] = useState([]);
+  const { data: blogs = [], refetch } = useQuery({
+    queryKey: ["blogs"],
+    queryFn: async () => {
+      const response = await axiosSecure.get("/allBlogs");
+      return response.data;
+    },
+  });
 
-  useEffect(() => {
-    const fetchBlogs = async () => {
-      try {
-        const response = await axiosSecure.get("/allBlogs");
-        setBlogs(response.data);
-      } catch (error) {
-        console.error("Error fetching blogs:", error);
-      }
-    };
-    fetchBlogs();
-  }, [axiosSecure]);
-
-  console.log(blogs);
-
-  const handlePublish=(id)=>{
-    console.log(id)
-    axiosSecure.patch(`/blog-status-update/${id}`,{status: "published"}).then((res)=>{
-      console.log(res.data)
-    })
-  }
-  const handleUnpublish=(id)=>{
-    console.log(id)
-    axiosSecure.patch(`/blog-status-update/${id}`,{status: "draft"}).then((res)=>{
-      console.log(res.data)
-    })
-  }
+  const handlePublish = (id) => {
+    console.log(id);
+    axiosSecure
+      .patch(`/blog-status-update/${id}`, { status: "published" })
+      .then((res) => {
+        console.log(res.data);
+        refetch();
+      });
+  };
+  const handleUnpublish = (id) => {
+    console.log(id);
+    axiosSecure
+      .patch(`/blog-status-update/${id}`, { status: "draft" })
+      .then((res) => {
+        console.log(res.data);
+        refetch();
+      });
+  };
 
   return (
     <div>
@@ -70,13 +69,13 @@ export default function ContentManagement() {
             />
             <div className="flex gap-2 mt-4">
               <button
-                onClick={()=>handlePublish(blog._id)}
+                onClick={() => handlePublish(blog._id)}
                 className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
               >
                 Publish
               </button>
               <button
-                onClick={()=>handleUnpublish(blog._id)}
+                onClick={() => handleUnpublish(blog._id)}
                 className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
               >
                 Unpublish
