@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+// import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
@@ -68,18 +68,21 @@ export default function ContentManagement() {
               }}
             />
             <div className="flex gap-2 mt-4">
-              <button
-                onClick={() => handlePublish(blog._id)}
-                className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
-              >
-                Publish
-              </button>
-              <button
-                onClick={() => handleUnpublish(blog._id)}
-                className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
-              >
-                Unpublish
-              </button>
+              {blog.status === "draft" ? (
+                <button
+                  onClick={() => handlePublish(blog._id)}
+                  className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+                >
+                  Publish
+                </button>
+              ) : (
+                <button
+                  onClick={() => handleUnpublish(blog._id)}
+                  className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+                >
+                  Unpublish
+                </button>
+              )}
             </div>
           </div>
         ))}
