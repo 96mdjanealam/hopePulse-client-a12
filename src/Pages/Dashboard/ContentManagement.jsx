@@ -21,6 +21,19 @@ export default function ContentManagement() {
 
   console.log(blogs);
 
+  const handlePublish=(id)=>{
+    console.log(id)
+    axiosSecure.patch(`/blog-status-update/${id}`,{status: "published"}).then((res)=>{
+      console.log(res.data)
+    })
+  }
+  const handleUnpublish=(id)=>{
+    console.log(id)
+    axiosSecure.patch(`/blog-status-update/${id}`,{status: "draft"}).then((res)=>{
+      console.log(res.data)
+    })
+  }
+
   return (
     <div>
       <div className="flex justify-end">
@@ -57,13 +70,13 @@ export default function ContentManagement() {
             />
             <div className="flex gap-2 mt-4">
               <button
-                // onClick={handlePublish}
+                onClick={()=>handlePublish(blog._id)}
                 className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
               >
                 Publish
               </button>
               <button
-                // onClick={handleUnpublish}
+                onClick={()=>handleUnpublish(blog._id)}
                 className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
               >
                 Unpublish
