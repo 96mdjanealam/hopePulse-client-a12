@@ -92,7 +92,7 @@ export default function Profile() {
           district: district.name,
           upazilla: form.upazilla.value,
           role: "donor",
-          status: "active",
+          status: "Active",
           image: response.data.data.display_url,
         };
 

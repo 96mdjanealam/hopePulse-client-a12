@@ -23,10 +23,10 @@ export default function Navbar() {
 
           {/* Desktop Links */}
           <div className="hidden md:flex space-x-6">
-            <a href="/donation-requests" className="hover:text-gray-300">
+            <a href="/pending-donation-requests" className="hover:text-gray-300">
               Donation Requests
             </a>
-            <a href="/blog" className="hover:text-gray-300">
+            <a href="/blogs" className="hover:text-gray-300">
               Blog
             </a>
             <a href="/funding" className="hover:text-gray-300">
@@ -94,12 +94,12 @@ export default function Navbar() {
         {isOpen && (
           <div className="md:hidden bg-gray-700">
             <a
-              href="/donation-requests"
+              href="/pending-donation-requests"
               className="block px-4 py-2 hover:bg-gray-600"
             >
               Donation Requests
             </a>
-            <a href="/blog" className="block px-4 py-2 hover:bg-gray-600">
+            <a href="/blogs" className="block px-4 py-2 hover:bg-gray-600">
               Blog
             </a>
             <a href="/funding" className="block px-4 py-2 hover:bg-gray-600">

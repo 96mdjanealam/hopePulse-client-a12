@@ -9,13 +9,15 @@ export default function AllUsers() {
     queryFn: async () => {
       const response = await axiosSecure.get("/allUsers");
       return response.data;
-    }
+    },
   });
 
   const handleBlock = async (id) => {
     try {
       console.log(`Block user with ID: ${id}`);
-      await axiosSecure.patch(`/user-update/status/${id}`, { status: "Blocked" });
+      await axiosSecure.patch(`/user-update/status/${id}`, {
+        status: "Blocked",
+      });
       await refetch();
     } catch (error) {
       console.error("Error blocking user:", error);
@@ -25,7 +27,9 @@ export default function AllUsers() {
   const handleUnblock = async (id) => {
     try {
       console.log(`Unblock user with ID: ${id}`);
-      await axiosSecure.patch(`/user-update/status/${id}`, { status: "Active" });
+      await axiosSecure.patch(`/user-update/status/${id}`, {
+        status: "Active",
+      });
       await refetch();
     } catch (error) {
       console.error("Error unblocking user:", error);
@@ -51,23 +55,33 @@ export default function AllUsers() {
     }
   };
 
-
   return (
     <div className="overflow-x-auto p-6">
       <table className="min-w-full border border-gray-300 bg-white rounded-lg">
         <thead className="bg-gray-100">
           <tr>
-            <th className="border border-gray-300 px-4 py-2 text-left">Image</th>
-            <th className="border border-gray-300 px-4 py-2 text-left">Email</th>
+            <th className="border border-gray-300 px-4 py-2 text-left">
+              Image
+            </th>
+            <th className="border border-gray-300 px-4 py-2 text-left">
+              Email
+            </th>
             <th className="border border-gray-300 px-4 py-2 text-left">Name</th>
             <th className="border border-gray-300 px-4 py-2 text-left">Role</th>
-            <th className="border border-gray-300 px-4 py-2 text-left">Status</th>
-            <th className="border border-gray-300 px-4 py-2 text-center">Actions</th>
+            <th className="border border-gray-300 px-4 py-2 text-left">
+              Status
+            </th>
+            <th className="border border-gray-300 px-4 py-2 text-center">
+              Actions
+            </th>
           </tr>
         </thead>
         <tbody>
           {allUsers.map((user) => (
-            <tr key={user._id} className="hover:bg-gray-50 border border-gray-300">
+            <tr
+              key={user._id}
+              className="hover:bg-gray-50 border border-gray-300"
+            >
               <td className="border border-gray-300 px-4 py-2">
                 <img
                   src={user.image}
@@ -90,30 +104,37 @@ export default function AllUsers() {
                 </span>
               </td>
               <td className="flex flex-wrap justify-center items-center gap-2 m-2">
-                <button
-                  onClick={() => handleBlock(user._id)}
-                  className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
-                >
-                  Block
-                </button>
-                <button
-                  onClick={() => handleUnblock(user._id)}
-                  className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600"
-                >
-                  Unblock
-                </button>
-                <button
-                  onClick={() => handleVolunteer(user._id)}
-                  className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
-                >
-                  Volunteer
-                </button>
-                <button
-                  onClick={() => handleAdmin(user._id)}
-                  className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
-                >
-                  Admin
-                </button>
+                {user.role !== "Admin" && (
+                  <button
+                    onClick={() => handleAdmin(user._id)}
+                    className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
+                  >
+                    Admin
+                  </button>
+                )}
+                {user.role !== "Volunteer" && (
+                  <button
+                    onClick={() => handleVolunteer(user._id)}
+                    className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
+                  >
+                    Volunteer
+                  </button>
+                )}
+                {user.status !== "Active" ? (
+                  <button
+                    onClick={() => handleUnblock(user._id)}
+                    className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600"
+                  >
+                    Unblock
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => handleBlock(user._id)}
+                    className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
+                  >
+                    Block
+                  </button>
+                )}
               </td>
             </tr>
           ))}

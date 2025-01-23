@@ -77,7 +77,7 @@ export default function Registration() {
           district: district.name,
           upazilla: form.upazilla.value,
           role: "Donor",
-          status: "active",
+          status: "Active",
           image: response.data.data.display_url,
         };
         console.log(newUser);

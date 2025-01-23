@@ -4,14 +4,40 @@ import { format } from "date-fns";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { Link } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 
 export default function AllDonationRequests() {
   const axiosSecure = useAxiosSecure();
-  const allDonationRequests = useAllDonationRequests();
-  const [tableData, setTableData] = useState([]);
-  useEffect(() => {
-    setTableData(allDonationRequests);
-  }, [allDonationRequests]);
+
+  const { data: donationRequestsDB = [], refetch } = useQuery({
+    queryKey: ["donationRequestsDB"],
+    queryFn: useAllDonationRequests(),
+  });
+
+  const handleDone = (id) => {
+    axiosSecure
+      .patch(`/request-status-update/${id}`, { status: "done" })
+      .then((res) => {
+        console.log(res.data);
+        refetch();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const handleCancel = (id) => {
+    axiosSecure
+      .patch(`/request-status-update/${id}`, { status: "canceled" })
+      .then((res) => {
+        console.log(res.data);
+        refetch();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   const handleDelete = (id) => {
     Swal.fire({
       title: "Are you sure?",
@@ -27,9 +53,7 @@ export default function AllDonationRequests() {
           .delete(`/requestDelete/${id}`)
           .then((res) => {
             console.log(res.data);
-            setTableData((prevData) =>
-              prevData.filter((item) => item._id !== id)
-            );
+            refetch();
             Swal.fire({
               title: "Deleted!",
               text: "Your file has been deleted.",
@@ -75,7 +99,7 @@ export default function AllDonationRequests() {
             </tr>
           </thead>
           <tbody>
-            {tableData.map((item) => (
+            {donationRequestsDB.map((item) => (
               <tr key={item._id}>
                 <td className="border border-gray-300 px-4 py-2">
                   {item.recipientName}
@@ -99,13 +123,21 @@ export default function AllDonationRequests() {
                   {item.donationStatus}
                 </td>
                 <td className="border border-gray-300 px-4 py-2 flex flex-wrap gap-2">
-                  <button className="bg-green-500 text-white px-2 py-1 rounded">
-                    Done
-                  </button>
-                  <button className="bg-red-500 text-white px-2 py-1 rounded">
-                    Cancel
-                  </button>
-
+                  {item.donationStatus === "done" ? (
+                    <button
+                      onClick={() => handleCancel(item._id)}
+                      className="bg-red-500 text-white px-2 py-1 rounded"
+                    >
+                      Cancel
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => handleDone(item._id)}
+                      className="bg-green-500 text-white px-2 py-1 rounded"
+                    >
+                      Done
+                    </button>
+                  )}
                   <Link to={`/dashboard/request/edit/${item._id}`}>
                     <button className="bg-blue-500 text-white px-2 py-1 rounded">
                       Edit

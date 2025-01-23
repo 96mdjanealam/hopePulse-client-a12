@@ -14,6 +14,10 @@ import AllDonationRequests from "../Pages/Dashboard/AllDonationRequests";
 import AllUsers from "../Pages/Dashboard/AllUsers";
 import ContentManagement from "../Pages/Dashboard/ContentManagement";
 import AddBlog from "../Pages/Dashboard/AddBlog";
+import Search from "../Pages/Search/Search";
+import PendingDonationRequests from "../Pages/PendingDonationRequests.jsx/PendingDonationRequests";
+import DonationRequestsDetails from "../Pages/DonationRequestsDetails/DonationRequestsDetails";
+import PublishedBlogs from "../Pages/PublishedBlogs/PublishedBlogs";
 
 export const router = createBrowserRouter([
   {
@@ -31,6 +35,22 @@ export const router = createBrowserRouter([
       {
         path: "/login",
         element: <Login></Login>,
+      },
+      {
+        path: "/searchDonors",
+        element: <Search></Search>,
+      },
+      {
+        path: "/pending-donation-requests",
+        element: <PendingDonationRequests></PendingDonationRequests>,
+      },
+      {
+        path: "/donation-request-details/:id",
+        element: <DonationRequestsDetails></DonationRequestsDetails>,
+      },
+      {
+        path: "/blogs",
+        element: <PublishedBlogs></PublishedBlogs>
       },
     ],
   },
@@ -76,8 +96,8 @@ export const router = createBrowserRouter([
       },
       {
         path: "/dashboard/content-management/add-blog",
-        element: <AddBlog></AddBlog>
-      }
+        element: <AddBlog></AddBlog>,
+      },
     ],
   },
 ]);
