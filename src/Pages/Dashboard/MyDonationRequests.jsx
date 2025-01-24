@@ -21,6 +21,30 @@ export default function MyDonationRequests() {
 
   console.log(tableData);
 
+  const handleDone = (id) => {
+    axiosSecure
+      .patch(`/request-status-update/${id}`, { status: "done" })
+      .then((res) => {
+        console.log(res.data);
+        window.location.reload()
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const handleCancel = (id) => {
+    axiosSecure
+      .patch(`/request-status-update/${id}`, { status: "canceled" })
+      .then((res) => {
+        console.log(res.data);
+        window.location.reload();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   const handleDelete = (id) => {
     Swal.fire({
       title: "Are you sure?",
@@ -102,19 +126,27 @@ export default function MyDonationRequests() {
                   {item.bloodGroup}
                 </td>
                 <td className="border border-gray-300 px-4 py-2">
-                  {item.donorInformation}
+                  {item.donorName}, <br />
+                  {item.donorEmail}
                 </td>
                 <td className="border border-gray-300 px-4 py-2">
                   {item.donationStatus}
                 </td>
                 <td className="border border-gray-300 px-4 py-2 flex flex-wrap gap-2">
-                  <button className="bg-green-500 text-white px-2 py-1 rounded">
+
+                {item?.donationStatus ==="inprogress" &&
+                    <>
+                    <button
+                   onClick={() => handleDone(item._id)}
+                  className="bg-green-500 text-white px-2 py-1 rounded">
                     Done
                   </button>
-                  <button className="bg-red-500 text-white px-2 py-1 rounded">
+                  <button
+                   onClick={() => handleCancel(item._id)}
+                  className="bg-red-500 text-white px-2 py-1 rounded">
                     Cancel
                   </button>
-
+                    </>}
                   <Link to={`/dashboard/request/edit/${item._id}`}>
                     <button className="bg-blue-500 text-white px-2 py-1 rounded">
                       Edit

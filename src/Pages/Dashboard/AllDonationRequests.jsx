@@ -70,7 +70,7 @@ export default function AllDonationRequests() {
   return (
     <div className="bg-white p-6  rounded-lg shadow-lg w-full mt-8 sm:mt-0">
       <h2 className="text-2xl font-bold text-gray-800 mb-6">
-        My donation requests
+        All donation requests
       </h2>
       <div className="overflow-x-auto">
         <table className="table-auto border border-gray-300">
@@ -117,7 +117,8 @@ export default function AllDonationRequests() {
                   {item.bloodGroup}
                 </td>
                 <td className="border border-gray-300 px-4 py-2">
-                  {item.donorInformation}
+                  {item.donorName}, <br />
+                  {item.donorEmail}
                 </td>
                 <td className="border border-gray-300 px-4 py-2">
                   {item.donationStatus}

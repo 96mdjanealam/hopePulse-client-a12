@@ -60,7 +60,7 @@ export default function CreateDonation() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (userInfo.status === "blocked") {
+    if (userInfo.status === "Blocked") {
       Swal.fire({
         icon: "error",
         title: "Oops...",
@@ -106,7 +106,7 @@ export default function CreateDonation() {
 
   return (
     <div className="bg-white p-6  rounded-lg shadow-lg w-full mt-8 sm:mt-0">
-      {userInfo.status === "blocked" && (
+      {userInfo.status === "Blocked" && (
         <p className="text-center py-2 text-lg font-semibold text-red-500">
           Note: You cannot create donation requests
         </p>

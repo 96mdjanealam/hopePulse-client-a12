@@ -18,6 +18,8 @@ import Search from "../Pages/Search/Search";
 import PendingDonationRequests from "../Pages/PendingDonationRequests.jsx/PendingDonationRequests";
 import DonationRequestsDetails from "../Pages/DonationRequestsDetails/DonationRequestsDetails";
 import PublishedBlogs from "../Pages/PublishedBlogs/PublishedBlogs";
+import PrivateRoute from "./PrivateRoute";
+import AdminRoute from "./AdminRoute";
 
 export const router = createBrowserRouter([
   {
@@ -46,17 +48,25 @@ export const router = createBrowserRouter([
       },
       {
         path: "/donation-request-details/:id",
-        element: <DonationRequestsDetails></DonationRequestsDetails>,
+        element: (
+          <PrivateRoute>
+            <DonationRequestsDetails></DonationRequestsDetails>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/blogs",
-        element: <PublishedBlogs></PublishedBlogs>
+        element: <PublishedBlogs></PublishedBlogs>,
       },
     ],
   },
   {
     path: "/dashboard",
-    element: <Dashboard></Dashboard>,
+    element: (
+      <PrivateRoute>
+        <Dashboard></Dashboard>
+      </PrivateRoute>
+    ),
     children: [
       {
         path: "/dashboard",
@@ -76,7 +86,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "/dashboard/request/view/:id",
-        element: <ViewRequest></ViewRequest>,
+        element: <DonationRequestsDetails></DonationRequestsDetails>,
       },
       {
         path: "/dashboard/my-donation-requests",
@@ -84,11 +94,19 @@ export const router = createBrowserRouter([
       },
       {
         path: "/dashboard/all-donation-requests",
-        element: <AllDonationRequests></AllDonationRequests>,
+        element: (
+          <AdminRoute>
+            <AllDonationRequests></AllDonationRequests>
+          </AdminRoute>
+        ),
       },
       {
         path: "/dashboard/all-users",
-        element: <AllUsers></AllUsers>,
+        element: (
+          <AdminRoute>
+            <AllUsers></AllUsers>
+          </AdminRoute>
+        ),
       },
       {
         path: "/dashboard/content-management",

@@ -7,24 +7,30 @@ import { Link } from "react-router-dom";
 import { FaUsers, FaDollarSign, FaHandHoldingHeart } from "react-icons/fa";
 import useAllUsers from "../../hooks/useAllUsers";
 import useAllDonationRequests from "../../hooks/useAllDonationRequests";
+import useAdmin from "../../hooks/useAdmin";
+import { useQuery } from "@tanstack/react-query";
 
 export default function DashboardHome() {
   const { user } = useContext(AuthContext);
   const axiosSecure = useAxiosSecure();
   const [tableData, setTableData] = useState([]);
   const allUsers = useAllUsers();
-  const allDonationRequests = useAllDonationRequests();
 
-  console.log(allDonationRequests)
+  const { data: donationRequestsDB = [] } = useQuery({
+    queryKey: ["donationRequestsDB"],
+    queryFn: useAllDonationRequests(),
+  });
 
   const { userInfo } = useContext(AuthContext);
   console.log(userInfo);
-  const [isAdmin, setIsAdmin] = useState(true);
+  const [isAdmin] = useAdmin();
 
   // console.log(userInfo.role);
   // if(userInfo.role==="admin"){
   //   setIsAdmin(true)
   // }
+
+  
 
   useEffect(() => {
     axiosSecure
@@ -34,6 +40,30 @@ export default function DashboardHome() {
       })
       .catch(() => {});
   }, [axiosSecure, user?.email]);
+
+  const handleDone = (id) => {
+    axiosSecure
+      .patch(`/request-status-update/${id}`, { status: "done" })
+      .then((res) => {
+        console.log(res.data);
+        window.location.reload()
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const handleCancel = (id) => {
+    axiosSecure
+      .patch(`/request-status-update/${id}`, { status: "canceled" })
+      .then((res) => {
+        console.log(res.data);
+        window.location.reload();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   const handleDelete = (id) => {
     Swal.fire({
@@ -70,9 +100,11 @@ export default function DashboardHome() {
 
   return (
     <div className="bg-white p-6  rounded-lg shadow-lg w-full mt-8 sm:mt-0">
-      <h2 className="text-2xl font-bold text-gray-800 mb-6">Dashboard Home</h2>
+      <h2 className="text-2xl font-bold text-gray-800 mb-6">
+        Welcome {user.displayName}
+      </h2>
 
-      {isAdmin ? (
+      {(isAdmin || userInfo?.role === "Volunteer") ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
           {/* Total Users Card */}
           <div className="bg-white shadow-lg rounded-lg p-6 flex items-center">
@@ -83,7 +115,9 @@ export default function DashboardHome() {
               <h3 className="text-lg font-semibold text-gray-700">
                 Total Users
               </h3>
-              <p className="text-2xl font-bold text-gray-900">{allUsers.length}</p>
+              <p className="text-2xl font-bold text-gray-900">
+                {allUsers.length}
+              </p>
             </div>
           </div>
 
@@ -109,7 +143,9 @@ export default function DashboardHome() {
               <h3 className="text-lg font-semibold text-gray-700">
                 Blood Donation Requests
               </h3>
-              <p className="text-2xl font-bold text-gray-900">{allDonationRequests.length}</p>
+              <p className="text-2xl font-bold text-gray-900">
+                {donationRequestsDB?.length}
+              </p>
             </div>
           </div>
         </div>
@@ -167,13 +203,19 @@ export default function DashboardHome() {
                     {item.donationStatus}
                   </td>
                   <td className="border border-gray-300 px-4 py-2 flex flex-wrap gap-2">
-                    <button className="bg-green-500 text-white px-2 py-1 rounded">
+                    {item?.donationStatus ==="inprogress" &&
+                    <>
+                    <button 
+                    onClick={() => handleDone(item._id)}className="bg-green-500 text-white px-2 py-1 rounded">
                       Done
                     </button>
-                    <button className="bg-red-500 text-white px-2 py-1 rounded">
+                    <button
+                    onClick={() => handleCancel(item._id)}
+                    className="bg-red-500 text-white px-2 py-1 rounded">
                       Cancel
                     </button>
-
+                    </>
+                    }
                     <Link to={`/dashboard/request/edit/${item._id}`}>
                       <button className="bg-blue-500 text-white px-2 py-1 rounded">
                         Edit

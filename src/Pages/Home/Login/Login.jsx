@@ -2,12 +2,16 @@ import React, { useContext } from "react";
 import handsPhoto from "../../../assets/images/hands.png";
 import { useForm } from "react-hook-form";
 import { AuthContext } from "../../../providers/AuthProvider";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 
 export default function Login() {
   const { signIn, setIsDropdownOpen } = useContext(AuthContext);
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const from = location.state?.from?.pathname || "";
+  console.log(from);
 
   const {
     register,
@@ -26,7 +30,7 @@ export default function Login() {
           showConfirmButton: false,
           timer: 1500,
         }).then(() => {
-          navigate("/");
+          navigate(from || "/", { replace: true });
         });
       })
       .catch((error) => {
