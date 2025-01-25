@@ -20,8 +20,13 @@ import DonationRequestsDetails from "../Pages/DonationRequestsDetails/DonationRe
 import PublishedBlogs from "../Pages/PublishedBlogs/PublishedBlogs";
 import PrivateRoute from "./PrivateRoute";
 import AdminRoute from "./AdminRoute";
+import ErrorPage from "../Pages/Shared/ErrorPage";
 
 export const router = createBrowserRouter([
+  {
+    path:"*",
+    element:<ErrorPage></ErrorPage>
+  },
   {
     path: "/",
     element: <MainLayout></MainLayout>,
@@ -94,11 +99,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "/dashboard/all-donation-requests",
-        element: (
-          <AdminRoute>
-            <AllDonationRequests></AllDonationRequests>
-          </AdminRoute>
-        ),
+        element: <AllDonationRequests></AllDonationRequests>,
       },
       {
         path: "/dashboard/all-users",

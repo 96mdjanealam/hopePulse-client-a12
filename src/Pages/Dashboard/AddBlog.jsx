@@ -1,4 +1,4 @@
-import React, { useState, useRef, useMemo } from "react";
+import { useState, useRef, useMemo } from "react";
 import JoditEditor from "jodit-react";
 import axios from "axios";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
@@ -81,7 +81,7 @@ export default function AddBlog({ placeholder = "Start typing..." }) {
     <div className="max-w-2xl mx-auto p-6 bg-white shadow-md rounded-md">
       <h2 className="text-2xl font-bold text-center mb-6">Add Blog</h2>
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-        {/* Title Input */}
+    
         <div>
           <label
             htmlFor="title"
@@ -100,7 +100,7 @@ export default function AddBlog({ placeholder = "Start typing..." }) {
           />
         </div>
 
-        {/* Thumbnail Input */}
+
         <div>
           <label
             htmlFor="thumbnail"
@@ -113,13 +113,13 @@ export default function AddBlog({ placeholder = "Start typing..." }) {
             id="thumbnail"
             accept="image/*"
             onChange={handleThumbnailChange}
-            ref={fileInputRef} // Attach the ref to the file input
+            ref={fileInputRef} 
             required
             className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
           />
         </div>
 
-        {/* Content Editor */}
+ 
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Content
@@ -135,7 +135,7 @@ export default function AddBlog({ placeholder = "Start typing..." }) {
           />
         </div>
 
-        {/* Submit Button */}
+  
         <button
           type="submit"
           disabled={isUploading}
@@ -146,16 +146,6 @@ export default function AddBlog({ placeholder = "Start typing..." }) {
           {isUploading ? "Uploading..." : "Create"}
         </button>
       </form>
-
-      {/* Preview Section */}
-      <div className="mt-6 p-4 bg-gray-100 rounded-md">
-        <h3 className="text-lg font-semibold mb-4">Preview</h3>
-        <h4 className="text-xl font-bold">{title}</h4>
-        <div
-          className="mt-4 border-t border-gray-300 pt-4"
-          dangerouslySetInnerHTML={{ __html: content }}
-        />
-      </div>
     </div>
   );
 }

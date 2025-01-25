@@ -28,7 +28,6 @@ export default function Profile() {
 
   const axiosSecure = useAxiosSecure();
 
-  // Use effect to load user data and districts on component mount
   useEffect(() => {
     if (user?.email) {
       axiosSecure
@@ -131,19 +130,23 @@ export default function Profile() {
   };
 
   return (
-    <div>
+    <div className="container mx-auto px-4 py-8">
       {userData && Object.keys(userData).length > 0 && (
-        <div className="container mx-auto px-4 flex flex-col-reverse md:flex-row gap-10 items-start">
-          <div className="md:w-1/2 bg-white p-6 rounded-lg shadow-lg w-full mt-8 sm:mt-0">
+        <div className="flex flex-col md:flex-row gap-8">
+          <div className="w-full md:w-1/2 bg-white p-6 rounded-lg shadow-lg">
             <div className="flex justify-between items-center mb-6">
-              <h2 className="text-3xl font-bold text-gray-800">
-                {isEditable ? "Update Profile" : " My Profile"}
+              <div className="flex items-center gap-4">
+              <h2 className="text-2xl md:text-3xl font-bold text-gray-800">
+                {isEditable ? "Update Profile" : "My Profile"}
               </h2>
+              <span className="rounded-full px-4 py-2 text-sm bg-yellow-300">{userData.role}</span>
+              </div>
+              
               <button
                 type="button"
                 onClick={toggleEdit}
-                className={` text-white py-2 px-4 rounded-lg ${
-                  isEditable ? "bg-gray-600" : " bg-blue-500"
+                className={`text-white py-2 px-4 rounded-lg ${
+                  isEditable ? "bg-gray-600" : "bg-blue-500"
                 } hover:bg-blue-600`}
               >
                 {isEditable ? "Cancel Edit" : "Edit"}
@@ -175,8 +178,8 @@ export default function Profile() {
                     required
                   />
                 </div>
-                <div className="flex gap-4">
-                  <div className="w-1/2">
+                <div className="flex flex-col md:flex-row gap-4">
+                  <div className="w-full md:w-1/2">
                     <label
                       htmlFor="email"
                       className="block text-gray-700 font-medium mb-2"
@@ -193,7 +196,7 @@ export default function Profile() {
                       required
                     />
                   </div>
-                  <div className="w-1/2">
+                  <div className="w-full md:w-1/2">
                     <label
                       htmlFor="bloodGroup"
                       className="block text-gray-700 font-medium mb-2"
@@ -224,8 +227,8 @@ export default function Profile() {
                     </select>
                   </div>
                 </div>
-                <div className="flex gap-4">
-                  <div className="w-1/2">
+                <div className="flex flex-col md:flex-row gap-4">
+                  <div className="w-full md:w-1/2">
                     <label
                       htmlFor="district"
                       className="block text-gray-700 font-medium mb-2"
@@ -253,7 +256,7 @@ export default function Profile() {
                       ))}
                     </select>
                   </div>
-                  <div className="w-1/2">
+                  <div className="w-full md:w-1/2">
                     <label
                       htmlFor="upazilla"
                       className="block text-gray-700 font-medium mb-2"
@@ -315,8 +318,8 @@ export default function Profile() {
             )}
           </div>
 
-          <div className="md:w-1/2 flex justify-center items-center">
-            <div className="relative w-48 h-48 sm:h-80 sm:w-80 rounded-full overflow-hidden bg-gray-100">
+          <div className="w-full md:w-1/2 flex justify-center items-center">
+            <div className="relative w-48 h-48 md:h-64 md:w-64 rounded-full overflow-hidden bg-gray-100">
               <img
                 src={photoURL || ""}
                 alt="Profile"

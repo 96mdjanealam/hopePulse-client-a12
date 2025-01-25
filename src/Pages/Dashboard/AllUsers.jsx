@@ -45,6 +45,7 @@ export default function AllUsers() {
       console.error("Error updating role:", error);
     }
   };
+
   const handleAdmin = async (id) => {
     try {
       console.log(`User with ID: ${id} updated to Admin role`);
@@ -57,44 +58,51 @@ export default function AllUsers() {
 
   return (
     <div className="overflow-x-auto p-6">
-      <table className="min-w-full border border-gray-300 bg-white rounded-lg">
-        <thead className="bg-gray-100">
+      <table className="min-w-full bg-white rounded-lg shadow-md overflow-hidden">
+        <thead className="bg-gray-50">
           <tr>
-            <th className="border border-gray-300 px-4 py-2 text-left">
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
               Image
             </th>
-            <th className="border border-gray-300 px-4 py-2 text-left">
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
               Email
             </th>
-            <th className="border border-gray-300 px-4 py-2 text-left">Name</th>
-            <th className="border border-gray-300 px-4 py-2 text-left">Role</th>
-            <th className="border border-gray-300 px-4 py-2 text-left">
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Name
+            </th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Role
+            </th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
               Status
             </th>
-            <th className="border border-gray-300 px-4 py-2 text-center">
+            <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
               Actions
             </th>
           </tr>
         </thead>
-        <tbody>
+        <tbody className="divide-y divide-gray-200">
           {allUsers.map((user) => (
-            <tr
-              key={user._id}
-              className="hover:bg-gray-50 border border-gray-300"
-            >
-              <td className="border border-gray-300 px-4 py-2">
+            <tr key={user._id} className="hover:bg-gray-50 transition-colors">
+              <td className="px-6 py-4 whitespace-nowrap">
                 <img
                   src={user.image}
                   alt={user.name}
-                  className="w-12 h-12 rounded-full object-cover"
+                  className="w-10 h-10 rounded-full object-cover"
                 />
               </td>
-              <td className="border border-gray-300 px-4 py-2">{user.email}</td>
-              <td className="border border-gray-300 px-4 py-2">{user.name}</td>
-              <td className="border border-gray-300 px-4 py-2">{user.role}</td>
-              <td className="border border-gray-300 px-4 py-2">
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                {user.email}
+              </td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                {user.name}
+              </td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                {user.role}
+              </td>
+              <td className="px-6 py-4 whitespace-nowrap">
                 <span
-                  className={`px-2 py-1 rounded text-sm ${
+                  className={`px-2 py-1 text-xs font-semibold rounded-full ${
                     user.status === "Active"
                       ? "bg-green-100 text-green-800"
                       : "bg-red-100 text-red-800"
@@ -103,38 +111,40 @@ export default function AllUsers() {
                   {user.status}
                 </span>
               </td>
-              <td className="flex flex-wrap justify-center items-center gap-2 m-2">
-                {user.role !== "Admin" && (
-                  <button
-                    onClick={() => handleAdmin(user._id)}
-                    className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
-                  >
-                    Admin
-                  </button>
-                )}
-                {user.role !== "Volunteer" && (
-                  <button
-                    onClick={() => handleVolunteer(user._id)}
-                    className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
-                  >
-                    Volunteer
-                  </button>
-                )}
-                {user.status !== "Active" ? (
-                  <button
-                    onClick={() => handleUnblock(user._id)}
-                    className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600"
-                  >
-                    Unblock
-                  </button>
-                ) : (
-                  <button
-                    onClick={() => handleBlock(user._id)}
-                    className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
-                  >
-                    Block
-                  </button>
-                )}
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center">
+                <div className="flex flex-wrap justify-center gap-2">
+                  {user.role !== "Admin" && (
+                    <button
+                      onClick={() => handleAdmin(user._id)}
+                      className="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-600 transition-colors text-sm"
+                    >
+                      Admin
+                    </button>
+                  )}
+                  {user.role !== "Volunteer" && (
+                    <button
+                      onClick={() => handleVolunteer(user._id)}
+                      className="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-600 transition-colors text-sm"
+                    >
+                      Volunteer
+                    </button>
+                  )}
+                  {user.status !== "Active" ? (
+                    <button
+                      onClick={() => handleUnblock(user._id)}
+                      className="bg-green-500 text-white px-3 py-1 rounded-md hover:bg-green-600 transition-colors text-sm"
+                    >
+                      Unblock
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => handleBlock(user._id)}
+                      className="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600 transition-colors text-sm"
+                    >
+                      Block
+                    </button>
+                  )}
+                </div>
               </td>
             </tr>
           ))}
