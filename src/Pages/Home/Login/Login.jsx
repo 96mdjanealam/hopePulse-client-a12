@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import handsPhoto from "../../../assets/images/hands.png";
 import { useForm } from "react-hook-form";
 import { AuthContext } from "../../../providers/AuthProvider";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 
 export default function Login() {
@@ -11,7 +11,6 @@ export default function Login() {
   const location = useLocation();
 
   const from = location.state?.from?.pathname || "";
-  console.log(from);
 
   const {
     register,
@@ -46,7 +45,7 @@ export default function Login() {
   };
 
   return (
-    <section className="bg-gray-50 py-10">
+    <section className="bg-gray-50 h-full py-10">
       <div className="container mx-auto px-4 flex flex-col-reverse md:flex-row items-center">
         {/* Left Section: Form */}
         <div className="md:w-1/2 bg-white p-6  rounded-lg shadow-lg w-full mt-8 sm:mt-0">
@@ -106,6 +105,7 @@ export default function Login() {
               Login
             </button>
           </form>
+          <p className="mt-4 text-center">Are your new? <Link to="/registration"><span className="text-blue-500 font-semibold hover:underline cursor-pointer">Register here.</span></Link></p>
         </div>
 
         {/* Right Section: Image */}

@@ -6,7 +6,7 @@ import axios from "axios";
 import { AuthContext } from "../../providers/AuthProvider";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
 import Swal from "sweetalert2";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
@@ -302,7 +302,7 @@ export default function Registration() {
           </form>
           <p className="text-center mt-4">
             Already a user? Please{" "}
-            <span className="text-blue-500 hover:underline">login.</span>{" "}
+            <Link to="/login"><span className="text-blue-500 font-semibold hover:underline">login.</span></Link>
           </p>
         </div>
 

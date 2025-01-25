@@ -53,7 +53,7 @@ export default function Footer() {
           <div>
             <h3 className="text-xl font-semibold mb-4">Subscribe to Our Newsletter</h3>
             <p className="text-sm mb-4">
-              Stay updated with the latest news and events from HopePlus.
+              Stay updated with the latest news and events from HopePulse.
             </p>
             <form className="flex items-center space-x-2">
               <input

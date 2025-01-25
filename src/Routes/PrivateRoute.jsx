@@ -8,7 +8,11 @@ export default function PrivateRoute({ children }) {
     const location = useLocation();
 
     if(loading){
-        return <span className="loading loading-bars loading-md"></span>
+        return (
+            <div className='w-full h-60 flex items-center justify-center'>
+                <span className="loading loading-bars loading-md"></span>
+            </div>
+        )
     }
 
     if (user) {
