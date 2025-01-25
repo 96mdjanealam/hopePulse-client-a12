@@ -70,11 +70,11 @@ export default function AllDonationRequests() {
   };
 
   return (
-    <div className="bg-white p-4 md:p-6 rounded-lg shadow-md">
+    <div className=" md:p-6 rounded-lg ">
       <h2 className="text-xl md:text-2xl font-bold text-gray-800 mb-4 md:mb-6">
         All Donation Requests
       </h2>
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto shadow-md">
         <table className="min-w-full bg-white rounded-lg shadow-md overflow-hidden">
           <thead className="bg-gray-50">
             <tr>

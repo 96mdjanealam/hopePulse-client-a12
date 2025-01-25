@@ -130,205 +130,207 @@ export default function Profile() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      {userData && Object.keys(userData).length > 0 && (
-        <div className="flex flex-col md:flex-row gap-8">
-          <div className="w-full md:w-1/2 bg-white p-6 rounded-lg shadow-lg">
-            <div className="flex justify-between items-center mb-6">
-              <div className="flex items-center gap-4">
+    <div className="container mx-auto px-4">
+    {userData && Object.keys(userData).length > 0 && (
+      <div className="flex flex-col md:flex-row gap-8">
+        {/* Profile Image Section */}
+        <div className="w-full md:w-1/2 flex justify-center items-center order-1 md:order-2">
+          <div className="relative w-48 h-48 md:h-64 md:w-64 rounded-full overflow-hidden bg-gray-100">
+            <img
+              src={photoURL || ""}
+              alt="Profile"
+              className="object-cover w-full h-full"
+            />
+          </div>
+        </div>
+  
+        {/* Profile Form Section */}
+        <div className="w-full md:w-1/2 bg-white p-6 rounded-lg shadow-lg order-2 md:order-1">
+          <div className="flex justify-between items-center mb-6">
+            <div className="flex items-center gap-4">
               <h2 className="text-2xl md:text-3xl font-bold text-gray-800">
                 {isEditable ? "Update Profile" : "My Profile"}
               </h2>
               <span className="rounded-full px-4 py-2 text-sm bg-yellow-300">{userData.role}</span>
-              </div>
-              
-              <button
-                type="button"
-                onClick={toggleEdit}
-                className={`text-white py-2 px-4 rounded-lg ${
-                  isEditable ? "bg-gray-600" : "bg-blue-500"
-                } hover:bg-blue-600`}
-              >
-                {isEditable ? "Cancel Edit" : "Edit"}
-              </button>
             </div>
-
-            {loading ? (
-              <div className="flex justify-center">
-                <DotLoading />
+            
+            <button
+              type="button"
+              onClick={toggleEdit}
+              className={`text-white py-2 px-4 rounded-lg ${
+                isEditable ? "bg-gray-600" : "bg-blue-500"
+              } hover:bg-blue-600`}
+            >
+              {isEditable ? "Cancel Edit" : "Edit"}
+            </button>
+          </div>
+  
+          {loading ? (
+            <div className="flex justify-center">
+              <DotLoading />
+            </div>
+          ) : (
+            <form onSubmit={handleRegister} className="space-y-6">
+              <div>
+                <label
+                  htmlFor="name"
+                  className="block text-gray-700 font-medium mb-2"
+                >
+                  Name
+                </label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  defaultValue={userData.name}
+                  readOnly={!isEditable}
+                  className={`w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 ${
+                    !isEditable ? "bg-gray-100" : ""
+                  }`}
+                  required
+                />
               </div>
-            ) : (
-              <form onSubmit={handleRegister} className="space-y-6">
-                <div>
+              <div className="flex flex-col md:flex-row gap-4">
+                <div className="w-full md:w-1/2">
                   <label
-                    htmlFor="name"
+                    htmlFor="email"
                     className="block text-gray-700 font-medium mb-2"
                   >
-                    Name
+                    Email
                   </label>
                   <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    defaultValue={userData.name}
-                    readOnly={!isEditable}
+                    type="email"
+                    id="email"
+                    name="email"
+                    defaultValue={userData.email}
+                    readOnly
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-100 cursor-not-allowed"
+                    required
+                  />
+                </div>
+                <div className="w-full md:w-1/2">
+                  <label
+                    htmlFor="bloodGroup"
+                    className="block text-gray-700 font-medium mb-2"
+                  >
+                    Blood Group
+                  </label>
+                  <select
+                    id="bloodGroup"
+                    name="bloodGroup"
+                    defaultValue={userData.bloodGroup}
+                    disabled={!isEditable}
+                    className={`w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 ${
+                      !isEditable ? "bg-gray-100" : ""
+                    }`}
+                    required
+                  >
+                    <option value="" disabled>
+                      Select your blood group
+                    </option>
+                    <option value="A+">A+</option>
+                    <option value="A-">A-</option>
+                    <option value="B+">B+</option>
+                    <option value="B-">B-</option>
+                    <option value="AB+">AB+</option>
+                    <option value="AB-">AB-</option>
+                    <option value="O+">O+</option>
+                    <option value="O-">O-</option>
+                  </select>
+                </div>
+              </div>
+              <div className="flex flex-col md:flex-row gap-4">
+                <div className="w-full md:w-1/2">
+                  <label
+                    htmlFor="district"
+                    className="block text-gray-700 font-medium mb-2"
+                  >
+                    District
+                  </label>
+                  <select
+                    id="district"
+                    name="district"
+                    defaultValue={district?.id || ""}
+                    onChange={handleDistrict}
+                    disabled={!isEditable}
+                    className={`w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 ${
+                      !isEditable ? "bg-gray-100" : ""
+                    }`}
+                    required
+                  >
+                    <option value="" disabled>
+                      Select district
+                    </option>
+                    {allDistricts.map((item) => (
+                      <option key={item.id} value={item.id}>
+                        {item.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className="w-full md:w-1/2">
+                  <label
+                    htmlFor="upazilla"
+                    className="block text-gray-700 font-medium mb-2"
+                  >
+                    Upazilla
+                  </label>
+                  <select
+                    id="upazilla"
+                    name="upazilla"
+                    defaultValue={userData?.upazilla || ""}
+                    disabled={!isEditable}
+                    className={`w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 ${
+                      !isEditable ? "bg-gray-100" : ""
+                    }`}
+                    required
+                  >
+                    <option value="" disabled>
+                      Select upazilla
+                    </option>
+                    {districtUpazillas.map((item) => (
+                      <option key={item.id} value={item.name}>
+                        {item.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+              {isEditable && (
+                <div>
+                  <label
+                    htmlFor="profile-image"
+                    className="block text-gray-700 font-medium mb-2"
+                  >
+                    Profile Image
+                  </label>
+                  <input
+                    id="profile-image"
+                    name="profile-image"
+                    type="file"
+                    accept="image/*"
+                    onChange={handleFileChange}
+                    disabled={!isEditable}
                     className={`w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 ${
                       !isEditable ? "bg-gray-100" : ""
                     }`}
                     required
                   />
                 </div>
-                <div className="flex flex-col md:flex-row gap-4">
-                  <div className="w-full md:w-1/2">
-                    <label
-                      htmlFor="email"
-                      className="block text-gray-700 font-medium mb-2"
-                    >
-                      Email
-                    </label>
-                    <input
-                      type="email"
-                      id="email"
-                      name="email"
-                      defaultValue={userData.email}
-                      readOnly
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-100 cursor-not-allowed"
-                      required
-                    />
-                  </div>
-                  <div className="w-full md:w-1/2">
-                    <label
-                      htmlFor="bloodGroup"
-                      className="block text-gray-700 font-medium mb-2"
-                    >
-                      Blood Group
-                    </label>
-                    <select
-                      id="bloodGroup"
-                      name="bloodGroup"
-                      defaultValue={userData.bloodGroup}
-                      disabled={!isEditable}
-                      className={`w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 ${
-                        !isEditable ? "bg-gray-100" : ""
-                      }`}
-                      required
-                    >
-                      <option value="" disabled>
-                        Select your blood group
-                      </option>
-                      <option value="A+">A+</option>
-                      <option value="A-">A-</option>
-                      <option value="B+">B+</option>
-                      <option value="B-">B-</option>
-                      <option value="AB+">AB+</option>
-                      <option value="AB-">AB-</option>
-                      <option value="O+">O+</option>
-                      <option value="O-">O-</option>
-                    </select>
-                  </div>
-                </div>
-                <div className="flex flex-col md:flex-row gap-4">
-                  <div className="w-full md:w-1/2">
-                    <label
-                      htmlFor="district"
-                      className="block text-gray-700 font-medium mb-2"
-                    >
-                      District
-                    </label>
-                    <select
-                      id="district"
-                      name="district"
-                      defaultValue={district?.id || ""}
-                      onChange={handleDistrict}
-                      disabled={!isEditable}
-                      className={`w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 ${
-                        !isEditable ? "bg-gray-100" : ""
-                      }`}
-                      required
-                    >
-                      <option value="" disabled>
-                        Select district
-                      </option>
-                      {allDistricts.map((item) => (
-                        <option key={item.id} value={item.id}>
-                          {item.name}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  <div className="w-full md:w-1/2">
-                    <label
-                      htmlFor="upazilla"
-                      className="block text-gray-700 font-medium mb-2"
-                    >
-                      Upazilla
-                    </label>
-                    <select
-                      id="upazilla"
-                      name="upazilla"
-                      defaultValue={userData?.upazilla || ""}
-                      disabled={!isEditable}
-                      className={`w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 ${
-                        !isEditable ? "bg-gray-100" : ""
-                      }`}
-                      required
-                    >
-                      <option value="" disabled>
-                        Select upazilla
-                      </option>
-                      {districtUpazillas.map((item) => (
-                        <option key={item.id} value={item.name}>
-                          {item.name}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
-                {isEditable && (
-                  <div>
-                    <label
-                      htmlFor="profile-image"
-                      className="block text-gray-700 font-medium mb-2"
-                    >
-                      Profile Image
-                    </label>
-                    <input
-                      id="profile-image"
-                      name="profile-image"
-                      type="file"
-                      accept="image/*"
-                      onChange={handleFileChange}
-                      disabled={!isEditable}
-                      className={`w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 ${
-                        !isEditable ? "bg-gray-100" : ""
-                      }`}
-                      required
-                    />
-                  </div>
-                )}
-                {isEditable && (
-                  <button
-                    type="submit"
-                    className="w-full bg-red-500 text-white py-3 rounded-lg hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500"
-                  >
-                    Save Changes
-                  </button>
-                )}
-              </form>
-            )}
-          </div>
-
-          <div className="w-full md:w-1/2 flex justify-center items-center">
-            <div className="relative w-48 h-48 md:h-64 md:w-64 rounded-full overflow-hidden bg-gray-100">
-              <img
-                src={photoURL || ""}
-                alt="Profile"
-                className="object-cover w-full h-full"
-              />
-            </div>
-          </div>
+              )}
+              {isEditable && (
+                <button
+                  type="submit"
+                  className="w-full bg-red-500 text-white py-3 rounded-lg hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500"
+                >
+                  Save Changes
+                </button>
+              )}
+            </form>
+          )}
         </div>
-      )}
-    </div>
+      </div>
+    )}
+  </div>
   );
 }
