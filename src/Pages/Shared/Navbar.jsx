@@ -29,7 +29,7 @@ export default function Navbar() {
             <a href="/blogs" className="hover:text-gray-300">
               Blog
             </a>
-            <a href="/funding" className="hover:text-gray-300">
+            <a href="/payment" className="hover:text-gray-300">
               Funding
             </a>
           </div>

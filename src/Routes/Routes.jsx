@@ -21,6 +21,7 @@ import PublishedBlogs from "../Pages/PublishedBlogs/PublishedBlogs";
 import PrivateRoute from "./PrivateRoute";
 import AdminRoute from "./AdminRoute";
 import ErrorPage from "../Pages/Shared/ErrorPage";
+import Payment from "../Pages/Home/Payment";
 
 export const router = createBrowserRouter([
   {
@@ -63,6 +64,10 @@ export const router = createBrowserRouter([
         path: "/blogs",
         element: <PublishedBlogs></PublishedBlogs>,
       },
+      {
+        path: "/payment",
+        element:<Payment></Payment>
+      }
     ],
   },
   {
