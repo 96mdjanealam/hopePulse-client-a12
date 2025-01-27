@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../providers/AuthProvider";
 
 const axiosSecure = axios.create({
-  baseURL: "http://localhost:5000",
+  baseURL: "https://hope-pulse-server.vercel.app",
 });
 export default function useAxiosSecure() {
   // const navigate = useNavigate();

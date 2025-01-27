@@ -4,7 +4,7 @@
 - **Username:** alamrayhan025@gmail.com  
 - **Password:** 123456  
 
-**Live Site URL:** [HopePulse](https://www.bloodconnect.com)  
+**Live Site URL:** [HopePulse](https://hopepulse-90981.web.app/)  
 
 ---
 
@@ -29,7 +29,7 @@ HopePulse is a platform dedicated to bridging the gap between blood donors and r
    - Monitor website analytics and user activity.  
 
 5. **Alerts**:  
-   - Nice alerts for successful events or errors matching donors.  
+   - Nice alerts for successful events or errors.  
 
 6. **Blood Bank Directory**: A comprehensive directory of blood banks with contact information and availability status.  
 
