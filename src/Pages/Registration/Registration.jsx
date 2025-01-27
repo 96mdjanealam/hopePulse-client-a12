@@ -43,21 +43,19 @@ export default function Registration() {
     setDistrictUpazillas(upazillas);
   };
 
-  // const handleUpazilla = (e) => {
-  //   e.preventDefault();
-  //   const selectedId = e.target.value;
-  //   const selectedUpazilla = districtUpazillas.find(
-  //     (item) => item.id === selectedId
-  //   );
-  //   setUpazilla(selectedUpazilla);
-  // };
 
   const handleRegister = async (e) => {
     e.preventDefault();
     const form = e.target;
 
     if (form.passwordConfirm.value !== form.password.value) {
-      alert("Password did not match!");
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Password didn't match!",
+        showConfirmButton: false,
+        timer: 1500
+      });
       return;
     }
 
@@ -94,8 +92,14 @@ export default function Registration() {
               navigate("/");
             });
           })
-          .catch((error) => {
-            alert(error);
+          .catch(() => {
+            Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: "Something went wrong!",
+              showConfirmButton: false,
+              timer: 1500
+            });
           });
       }
     } catch (error) {
