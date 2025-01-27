@@ -1,22 +1,39 @@
-import { Elements } from "@stripe/react-stripe-js";
-import { loadStripe } from "@stripe/stripe-js";
-import React from "react";
-import CheckoutForm from "./CheckoutForm";
-
-// todo: add publishable key
-const stripePromise = loadStripe(import.meta.env.VITE_Payment_Gateway_PK);
+import { useState } from "react";
+import PaymentForm from "./PaymentForm";
+import AllFunding from "./AllFunding";
 
 export default function Payment() {
-  return (
-    <div className="p-6 lg:pl-44 mt-10 mb-10 flex flex-col gap-4">
-      <h1 className="text-4xl max-w-md">Payment</h1>
-      <p className="max-w-md">Please make contribution to lives</p>
+  const [formOpen, setFromOpen] = useState(false);
 
-      <div className="max-w-md mt-6">
-        <Elements stripe={stripePromise}>
-          <CheckoutForm />
-        </Elements>
+  const handleMakePayment = () => {
+    setFromOpen(true);
+  };
+  const handleAllFunding = () => {
+    setFromOpen(false);
+  };
+
+  return (
+    <div>
+      <div className="flex gap-4  justify-center my-7">
+        <button
+          onClick={handleMakePayment}
+          className={`btn ${formOpen && "btn-neutral"} btn-sm`}
+        >
+          Make Payment
+        </button>
+        <button
+          onClick={handleAllFunding}
+          className={`btn ${!formOpen && "btn-neutral"} btn-sm`}
+        >
+          All Funding
+        </button>
       </div>
+
+
+{formOpen?<PaymentForm></PaymentForm>:<AllFunding></AllFunding>}
+      
+
+
     </div>
   );
 }
