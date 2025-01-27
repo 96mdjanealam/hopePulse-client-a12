@@ -49,8 +49,8 @@ export default function PublishedBlogs() {
             <div className="flex-1 w-full">
               <h2 className="text-xl font-semibold">{blog.title}</h2>
               <p className="text-gray-600">
-                {stripHtmlTags(blog.content).length > 20
-                  ? `${stripHtmlTags(blog.content).substring(0, 20)}...`
+                {stripHtmlTags(blog.content).length > 100
+                  ? `${stripHtmlTags(blog.content).substring(0,100)}...`
                   : stripHtmlTags(blog.content)}
               </p>
             </div>
