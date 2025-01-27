@@ -8,7 +8,6 @@ import { AuthContext } from "../../providers/AuthProvider";
 export default function ContentManagement() {
   const axiosSecure = useAxiosSecure();
   const { userInfo } = useContext(AuthContext);
-  console.log(userInfo);
 
   const { data: blogs = [], refetch } = useQuery({
     queryKey: ["blogs"],
@@ -19,20 +18,19 @@ export default function ContentManagement() {
   });
 
   const handlePublish = (id) => {
-    console.log(id);
     axiosSecure
       .patch(`/blog-status-update/${id}`, { status: "published" })
-      .then((res) => {
-        console.log(res.data);
+      .then(() => {
+       
         refetch();
       });
   };
   const handleUnpublish = (id) => {
-    console.log(id);
+    
     axiosSecure
       .patch(`/blog-status-update/${id}`, { status: "draft" })
-      .then((res) => {
-        console.log(res.data);
+      .then(() => {
+       
         refetch();
       });
   };

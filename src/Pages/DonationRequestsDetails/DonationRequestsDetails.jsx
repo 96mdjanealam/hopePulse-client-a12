@@ -31,12 +31,9 @@ export default function DonationRequestsDetails() {
         donorName: `${userInfo.name}`,
         donorEmail: `${userInfo.email}`
       })
-      .then((res) => {
-        console.log(res.data);
+      .then(() => {
         refetch();
       });
-
-    console.log("Donation confirmed for:", donationRequest._id);
     closeModal();
   };
 

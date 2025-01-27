@@ -9,12 +9,16 @@ import useAllUsers from "../../hooks/useAllUsers";
 import useAllDonationRequests from "../../hooks/useAllDonationRequests";
 import useAdmin from "../../hooks/useAdmin";
 import { useQuery } from "@tanstack/react-query";
+import useAllFunding from "../../hooks/useAllfunding";
 
 export default function DashboardHome() {
   const { user } = useContext(AuthContext);
   const axiosSecure = useAxiosSecure();
   const [tableData, setTableData] = useState([]);
   const allUsers = useAllUsers();
+  const [allFunding] = useAllFunding();
+
+  const fundingSum = allFunding.reduce((acc, item) => acc + item.amount, 0);
 
   const { data: donationRequestsDB = [] } = useQuery({
     queryKey: ["donationRequestsDB"],
@@ -36,25 +40,18 @@ export default function DashboardHome() {
   const handleDone = (id) => {
     axiosSecure
       .patch(`/request-status-update/${id}`, { status: "done" })
-      .then((res) => {
-        console.log(res.data);
+      .then(() => {
+    
         window.location.reload();
       })
-      .catch((err) => {
-        console.log(err);
-      });
   };
 
   const handleCancel = (id) => {
     axiosSecure
       .patch(`/request-status-update/${id}`, { status: "canceled" })
-      .then((res) => {
-        console.log(res.data);
+      .then(() => {
         window.location.reload();
       })
-      .catch((err) => {
-        console.log(err);
-      });
   };
 
   const handleDelete = (id) => {
@@ -70,8 +67,7 @@ export default function DashboardHome() {
       if (result.isConfirmed) {
         axiosSecure
           .delete(`/requestDelete/${id}`)
-          .then((res) => {
-            console.log(res.data);
+          .then(() => {
             setTableData((prevData) =>
               prevData.filter((item) => item._id !== id)
             );
@@ -81,21 +77,20 @@ export default function DashboardHome() {
               icon: "success",
             });
           })
-          .catch((err) => {
-            console.log(err);
-          });
       }
     });
   };
 
   return (
-    <div className="md:p-6 w-full sm:mt-0">
+    <div className=" md:p-6 w-full sm:mt-0">
       <h2 className="text-xl md:text-2xl font-bold text-gray-800 mb-4 md:mb-6">
         Welcome {user?.displayName}
       </h2>
-      {!(isAdmin || userInfo?.role === "Volunteer")&& <p className="mb-4">Your latest blood donation requests</p>}
+      {!(isAdmin || userInfo?.role === "Volunteer") && (
+        <p className="mb-4">Your latest blood donation requests</p>
+      )}
 
-      {(isAdmin || userInfo?.role === "Volunteer") ? (
+      {isAdmin || userInfo?.role === "Volunteer" ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 p-4 md:p-6">
           {/* Total Users Card */}
           <div className="bg-white shadow-lg rounded-lg p-4 md:p-6 flex items-center">
@@ -121,7 +116,9 @@ export default function DashboardHome() {
               <h3 className="text-sm md:text-lg font-semibold text-gray-700">
                 Total Funding
               </h3>
-              <p className="text-xl md:text-2xl font-bold text-gray-900">$567,890</p>
+              <p className="text-xl md:text-2xl font-bold text-gray-900">
+                $ {fundingSum}
+              </p>
             </div>
           </div>
 
@@ -173,7 +170,10 @@ export default function DashboardHome() {
             </thead>
             <tbody className="divide-y divide-gray-200">
               {tableData.map((item) => (
-                <tr key={item._id} className="hover:bg-gray-50 transition-colors">
+                <tr
+                  key={item._id}
+                  className="hover:bg-gray-50 transition-colors"
+                >
                   <td className="px-2 py-2 md:px-4 md:py-4 whitespace-nowrap text-xs md:text-sm text-gray-900">
                     {item.recipientName}
                   </td>
@@ -190,7 +190,8 @@ export default function DashboardHome() {
                     {item.bloodGroup}
                   </td>
                   <td className="px-2 py-2 md:px-4 md:py-4 whitespace-nowrap text-xs md:text-sm text-gray-900">
-                    {item.donorName},<br />{item.donorEmail}
+                    {item.donorName},<br />
+                    {item.donorEmail}
                   </td>
                   <td className="px-2 py-2 md:px-4 md:py-4 whitespace-nowrap">
                     <span

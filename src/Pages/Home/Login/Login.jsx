@@ -6,7 +6,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 
 export default function Login() {
-  const { signIn, setIsDropdownOpen } = useContext(AuthContext);
+  const { signIn } = useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -19,10 +19,8 @@ export default function Login() {
   } = useForm();
 
   const onSubmit = (data) => {
-    console.log(data.email, data.password);
     signIn(data.email, data.password)
       .then(() => {
-        setIsDropdownOpen(false);
         Swal.fire({
           icon: "success",
           title: "User login successful!",

@@ -134,8 +134,8 @@ const Dashboard = () => {
   );
 
   return (
-    <div className="flex min-h-screen bg-gray-100">
-      {/* Sidebar */}
+    <div className="font-ysabeau-infant flex min-h-screen bg-gray-100">
+    
       <aside className="bg-blue-700 text-white w-64 p-4 hidden md:block">
         <Link onClick={toggleSidebar} to="/dashboard">
           <h1 className="text-2xl font-bold mb-6">Dashboard</h1>
@@ -144,9 +144,9 @@ const Dashboard = () => {
         <nav>{links}</nav>
       </aside>
 
-      {/* Main Content */}
+   
       <div className="flex-1 overflow-x-auto">
-        {/* Top Bar */}
+      
         <header className="bg-white shadow-md p-4 flex justify-between items-center md:hidden">
           <Link to="/dashboard">
             <h1 className="text-lg font-bold cursor-pointer">Dashboard</h1>
@@ -174,7 +174,7 @@ const Dashboard = () => {
           </button>
         </div>
 
-        {/* Mobile Sidebar */}
+      
         <aside
           id="mobileSidebar"
           className={`bg-blue-700 text-white w-64 p-4 fixed top-0 left-0 h-full z-50 transition-transform duration-300 ${
@@ -188,7 +188,7 @@ const Dashboard = () => {
           <nav>{links}</nav>
         </aside>
 
-        {/* Content */}
+       
         <main className="p-6">
           <Outlet></Outlet>
         </main>

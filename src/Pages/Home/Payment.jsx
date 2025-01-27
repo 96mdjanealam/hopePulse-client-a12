@@ -29,11 +29,7 @@ export default function Payment() {
         </button>
       </div>
 
-
-{formOpen?<PaymentForm></PaymentForm>:<AllFunding></AllFunding>}
-      
-
-
+      {formOpen ? <PaymentForm></PaymentForm> : <AllFunding></AllFunding>}
     </div>
   );
 }

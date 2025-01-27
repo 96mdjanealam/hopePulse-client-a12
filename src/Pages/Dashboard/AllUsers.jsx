@@ -14,7 +14,6 @@ export default function AllUsers() {
 
   const handleBlock = async (id) => {
     try {
-      console.log(`Block user with ID: ${id}`);
       await axiosSecure.patch(`/user-update/status/${id}`, {
         status: "Blocked",
       });
@@ -26,7 +25,6 @@ export default function AllUsers() {
 
   const handleUnblock = async (id) => {
     try {
-      console.log(`Unblock user with ID: ${id}`);
       await axiosSecure.patch(`/user-update/status/${id}`, {
         status: "Active",
       });
@@ -38,7 +36,6 @@ export default function AllUsers() {
 
   const handleVolunteer = async (id) => {
     try {
-      console.log(`User with ID: ${id} updated to Volunteer role`);
       await axiosSecure.patch(`/user-update/role/${id}`, { role: "Volunteer" });
       await refetch();
     } catch (error) {
@@ -48,7 +45,6 @@ export default function AllUsers() {
 
   const handleAdmin = async (id) => {
     try {
-      console.log(`User with ID: ${id} updated to Admin role`);
       await axiosSecure.patch(`/user-update/role/${id}`, { role: "Admin" });
       await refetch();
     } catch (error) {

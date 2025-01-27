@@ -33,12 +33,11 @@ export default function AuthProvider({ children }) {
     }
   }, [user,axiosSecure]);
 
-  console.log(userInfo);
 
   const [loading, setLoading] = useState(true);
 
   // state for dropdown in navbar
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  
 
   const createUser = (email, password) => {
     setLoading(true);
@@ -65,7 +64,6 @@ export default function AuthProvider({ children }) {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
-      console.log("currentUser", currentUser);
 
       if(currentUser){
         const userInfo = {email: currentUser.email};
@@ -89,8 +87,6 @@ export default function AuthProvider({ children }) {
     loading,
     createUser,
     updateProfileInfo,
-    setIsDropdownOpen,
-    isDropdownOpen,
     userInfo,
     signIn,
     logOut,

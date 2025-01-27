@@ -2,6 +2,7 @@ import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import React, { useContext, useEffect, useState, useRef } from "react";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { AuthContext } from "../../providers/AuthProvider";
+import Swal from "sweetalert2";
 
 export default function CheckoutForm() {
   const [error, setError] = useState("");
@@ -12,17 +13,17 @@ export default function CheckoutForm() {
   const axiosSecure = useAxiosSecure();
   const { user } = useContext(AuthContext);
   const [paymentAmount, setPaymentAmount] = useState(null);
-  const amountInputRef = useRef(null); 
+  const amountInputRef = useRef(null);
 
   const handleAmountChange = (event) => {
     event.preventDefault();
-    const amountInput = amountInputRef.current.value; 
+    const amountInput = amountInputRef.current.value;
     const amount = parseFloat(amountInput);
     if (!isNaN(amount) && amount > 0) {
       setPaymentAmount(amount);
     } else {
       setPaymentAmount(null);
-      amountInputRef.current.value = ""; 
+      amountInputRef.current.value = "";
       setError("Please enter a valid amount.");
     }
   };
@@ -34,7 +35,6 @@ export default function CheckoutForm() {
           donationAmount: paymentAmount,
         })
         .then((res) => {
-          console.log(res.data.clientSecret);
           setClientSecret(res.data.clientSecret);
         });
     }
@@ -42,7 +42,6 @@ export default function CheckoutForm() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log(paymentAmount);
 
     if (!stripe || !elements) {
       return;
@@ -59,30 +58,33 @@ export default function CheckoutForm() {
     });
 
     if (error) {
-      console.log("[error]", error);
       setError(error.message);
       setPaymentAmount(null);
     } else {
-      console.log("[PaymentMethod]", paymentMethod);
       setError("");
     }
 
-    const { paymentIntent, error: confirmError } = await stripe.confirmCardPayment(clientSecret, {
-      payment_method: {
-        card: card,
-        billing_details: {
-          email: user?.email || "anonymous",
-          name: user?.displayName || "anonymous",
+    const { paymentIntent, error: confirmError } =
+      await stripe.confirmCardPayment(clientSecret, {
+        payment_method: {
+          card: card,
+          billing_details: {
+            email: user?.email || "anonymous",
+            name: user?.displayName || "anonymous",
+          },
         },
-      },
-    });
+      });
 
     if (confirmError) {
-      console.log("confirm error");
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Something went wrong!",
+        showConfirmButton: false,
+        timer: 1500,
+      });
     } else {
-      console.log("payment intent", paymentIntent);
       if (paymentIntent.status === "succeeded") {
-        console.log("transaction id", paymentIntent.id);
         setTransactionId(paymentIntent.id);
 
         const payment = {
@@ -94,16 +96,26 @@ export default function CheckoutForm() {
         };
 
         const res = await axiosSecure.post("/payments", payment);
-        console.log("payment saved", res);
+        if (res.data.insertedId) {
+          Swal.fire({
+            icon: "success",
+            title: "Payment successful!",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        }
 
-        amountInputRef.current.value = ""; 
-        setPaymentAmount(null); 
+        amountInputRef.current.value = "";
+        setPaymentAmount(null);
       }
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-lg mx-auto min-w-full flex flex-col">
+    <form
+      onSubmit={handleSubmit}
+      className="max-w-lg mx-auto min-w-full flex flex-col"
+    >
       <label htmlFor="amount">Donation Amount</label>
       <div className="flex flex-col mb-4">
         <input
@@ -113,7 +125,10 @@ export default function CheckoutForm() {
           placeholder="Enter your donation amount here"
           ref={amountInputRef}
         />
-        <button onClick={handleAmountChange} className="btn btn-sm btn-primary w-44">
+        <button
+          onClick={handleAmountChange}
+          className="btn btn-sm btn-primary w-44"
+        >
           Set Amount
         </button>
       </div>
@@ -146,7 +161,8 @@ export default function CheckoutForm() {
       <p className="text-red-500 mt-4">{error}</p>
       {transactionId && (
         <p className="text-green-500">
-          Your transaction Id: <span className="font-bold">{transactionId}</span>
+          Your transaction Id:{" "}
+          <span className="font-bold">{transactionId}</span>
         </p>
       )}
     </form>

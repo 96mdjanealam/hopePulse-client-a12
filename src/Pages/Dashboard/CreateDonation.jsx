@@ -1,8 +1,7 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import districts from "../../data/districts.json";
 import upazillas from "../../data/upazillas.json";
 import { AuthContext } from "../../providers/AuthProvider";
-import { useForm } from "react-hook-form";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
 
@@ -13,17 +12,7 @@ const bloodGroups = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
 export default function CreateDonation() {
   const [userInfo, setUserInfo] = useState({});
   const { user } = useContext(AuthContext);
-  // const {
-  //   register,
-  //   handleSubmit,
-  //   watch,
-  //   formState: { errors },
-  // } = useForm({
-  //   defaultValues: {
-  //     requesterName: user?.displayName || "",
-  //     requesterEmail: user?.email || "",
-  //   },
-  // });
+ 
 
   const axiosSecure = useAxiosSecure();
 
@@ -39,7 +28,6 @@ export default function CreateDonation() {
         });
     }
   }, [user?.email, axiosSecure]);
-  console.log(userInfo.status);
 
   const [district1, setDistrict] = useState({});
 
@@ -68,7 +56,6 @@ export default function CreateDonation() {
       });
       return;
     }
-    console.log("submit clicked");
     const form = e.target;
     const donationRequest = {
       requesterEmail: form.requesterEmail.value,
@@ -85,8 +72,8 @@ export default function CreateDonation() {
       donationStatus: "pending",
     };
 
-    axiosSecure.post("/createDonationRequest", donationRequest).then((res) => {
-      console.log(res);
+    axiosSecure.post("/createDonationRequest", donationRequest).then(() => {
+     
     }).then(()=>{
       Swal.fire({
         icon: "success",
@@ -293,7 +280,7 @@ export default function CreateDonation() {
           ></textarea>
         </div>
 
-        {/* Submit Button */}
+   
         <button
           type="submit"
           className="w-full bg-red-600 text-white py-3 px-6 rounded-lg hover:bg-red-700 transition "

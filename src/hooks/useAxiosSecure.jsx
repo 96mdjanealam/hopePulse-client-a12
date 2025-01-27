@@ -29,7 +29,7 @@ export default function useAxiosSecure() {
     },
     async function (error) {
       const status = error.response.status;
-      // console.log("status error in the interceptor", status);
+     
       if (status === 401 || status === 403) {
         // await logOut();
         // navigate("/registration");

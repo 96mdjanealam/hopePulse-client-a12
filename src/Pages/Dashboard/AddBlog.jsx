@@ -54,7 +54,7 @@ export default function AddBlog({ placeholder = "Start typing..." }) {
       };
 
       await axiosSecure.post("/createBlog", formDataDB).then((res) => {
-        console.log(res);
+       
         if (res.status === 200) {
           setTitle("");
           setThumbnail(null);

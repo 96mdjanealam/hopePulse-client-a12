@@ -65,10 +65,7 @@ export default function EditRequest() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Form submitted", donationRequest);
-
     axiosSecure.patch(`/requestUpdate/${params.id}`,donationRequest).then((res)=>{
-      console.log(res.data)
       if(res.data.modifiedCount){
         Swal.fire({
           icon: "success",
@@ -84,8 +81,6 @@ export default function EditRequest() {
           timer: 1500
         });
       }
-    }).catch((err)=>{
-      console.log(err);
     })
   };
 

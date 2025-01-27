@@ -50,16 +50,13 @@ export default function Search() {
     setSelectedBloodGroup(bloodGroup);
   };
 
-  // Handle search button click
   const handleSearch = () => {
-    // Filter users based on the selected district, upazilla, and blood group
     const usersWithFilters = allUsers.filter(
       (user) =>
         (selectedDistrict ? user.district === selectedDistrict : true) &&
         (selectedUpazilla ? user.upazilla === selectedUpazilla : true) &&
         (selectedBloodGroup === user.bloodGroup)
     );
-    console.log(usersWithFilters)
     setFilteredUsers(usersWithFilters);
   };
 
@@ -135,7 +132,7 @@ export default function Search() {
               </select>
             </div>
           </div>
-          {/* Search Button */}
+       
           <div className="flex justify-end">
             <button
               type="button"
@@ -148,7 +145,7 @@ export default function Search() {
         </form>
       </div>
 
-      {/* Display filtered users */}
+  
       <div className="mt-8">
         <h3 className="text-xl font-bold text-gray-800 mb-4">Filtered Users</h3>
         {filteredUsers.length > 0 ? (

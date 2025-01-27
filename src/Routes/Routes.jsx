@@ -7,7 +7,6 @@ import Dashboard from "../Pages/Dashboard/Dashboard";
 import Profile from "../Pages/Shared/Profile";
 import DashboardHome from "../Pages/Dashboard/DashboardHome";
 import CreateDonation from "../Pages/Dashboard/CreateDonation";
-import ViewRequest from "../Pages/Dashboard/ViewRequest";
 import EditRequest from "../Pages/Dashboard/EditRequest";
 import MyDonationRequests from "../Pages/Dashboard/MyDonationRequests";
 import AllDonationRequests from "../Pages/Dashboard/AllDonationRequests";
@@ -66,7 +65,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "/payment",
-        element:<Payment></Payment>
+        element:<PrivateRoute><Payment></Payment></PrivateRoute>
       }
     ],
   },
