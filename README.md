@@ -49,7 +49,7 @@ Ensure you have the following installed:
 
 1. **Clone the repository:**
    ```sh
-   git clone https://github.com/96mdjanealam/hopepulse.git
+   git clone https://github.com/96mdjanealam/hopePulse-client-a12.git
    cd hopepulse
    ```
 
