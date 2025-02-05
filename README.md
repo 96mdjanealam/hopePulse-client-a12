@@ -11,14 +11,6 @@
 ## ✨ About HopePulse  
 HopePulse is a platform dedicated to bridging the gap between blood donors and recipients. The website is designed to make blood donation accessible, efficient, and community-driven.
 
-## 🔍 Table of Contents
-
-- [Features](#features)
-- [Installation](#installation)
-- [Configuration](#configuration)
-- [Usage](#usage)
-- [Tech Stack](#tech-stack)
-
 ## 🌟 Features  
 
 - **👤 Donor Registration**: Users can register as donors by providing their blood type, location, and contact details.
