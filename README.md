@@ -13,11 +13,11 @@ HopePulse is a platform dedicated to bridging the gap between blood donors and r
 
 ## 🔍 Table of Contents
 
-- [Features] (#features)
-- [Installation] (#installation)
-- [Configuration] (#configuration)
-- [Usage] (#usage)
-- [Tech Stack] (#tech-stack)
+- [Features](#features)
+- [Installation](#installation)
+- [Configuration](#configuration)
+- [Usage](#usage)
+- [Tech Stack](#tech-stack)
 
 ## 🌟 Features  
 
