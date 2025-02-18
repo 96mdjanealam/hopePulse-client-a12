@@ -5,6 +5,9 @@ import { AuthContext } from "../../../providers/AuthProvider";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 
+import bloodDonationJSON from "../../../assets/bloodDonation.json";
+import Lottie from "react-lottie";
+
 export default function Login() {
   const { signIn } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -16,6 +19,7 @@ export default function Login() {
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
   } = useForm();
 
   const onSubmit = (data) => {
@@ -42,6 +46,21 @@ export default function Login() {
       });
   };
 
+  const handleCredentials =(e)=>{
+    e.preventDefault();
+    setValue("email", "alamrayhan025@gmail.com");
+    setValue("password", "123456");
+  }
+
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: bloodDonationJSON,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
+
   return (
     <section className="bg-gray-50 h-full py-10">
       <div className="container mx-auto px-4 flex flex-col-reverse md:flex-row items-center">
@@ -49,6 +68,7 @@ export default function Login() {
         <div className="md:w-1/2 bg-white p-6  rounded-lg shadow-lg w-full mt-8 sm:mt-0">
           <h2 className="text-2xl font-bold text-gray-800 mb-6">Login</h2>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+            <button onClick={(e)=>handleCredentials(e)} className="btn btn-sm  btn-success">Input User Credentials</button>
             <div>
               <label
                 htmlFor="email"
@@ -103,16 +123,19 @@ export default function Login() {
               Login
             </button>
           </form>
-          <p className="mt-4 text-center">Are your new? <Link to="/registration"><span className="text-blue-500 font-semibold hover:underline cursor-pointer">Register here.</span></Link></p>
+          <p className="mt-4 text-center">
+            Are your new?{" "}
+            <Link to="/registration">
+              <span className="text-blue-500 font-semibold hover:underline cursor-pointer">
+                Register here.
+              </span>
+            </Link>
+          </p>
         </div>
 
         {/* Right Section: Image */}
         <div className="md:w-1/2 flex justify-center">
-          <img
-            src={handsPhoto}
-            alt="Registration"
-            className="w-full max-w-sm object-contain max-h-72 rounded-lg"
-          />
+          <Lottie options={defaultOptions} height={400} width={400} />
         </div>
       </div>
     </section>

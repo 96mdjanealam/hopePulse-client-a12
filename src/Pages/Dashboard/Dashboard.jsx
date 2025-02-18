@@ -33,7 +33,7 @@ const Dashboard = () => {
   };
 
   const isSelected = (path) => {
-    return location.pathname === path ? "bg-blue-800" : "";
+    return location.pathname === path ? "border-2 border-red-500/40 bg-red-700/20" : "";
   };
 
   const links = (
@@ -43,7 +43,9 @@ const Dashboard = () => {
           <Link
             onClick={toggleSidebar}
             to="/"
-            className={`hover:text-gray-200 flex items-center p-2 rounded ${isSelected("/")}`}
+            className={`hover:text-gray-200 flex  items-center p-2 rounded ${isSelected(
+              "/"
+            )}`}
           >
             <FontAwesomeIcon icon={faHome} className="mr-2" />
             Home Page
@@ -53,7 +55,9 @@ const Dashboard = () => {
           <Link
             onClick={toggleSidebar}
             to="/dashboard/profile"
-            className={`hover:text-gray-200 flex items-center p-2 rounded ${isSelected("/dashboard/profile")}`}
+            className={`hover:text-gray-200 flex items-center p-2 rounded ${isSelected(
+              "/dashboard/profile"
+            )}`}
           >
             <FontAwesomeIcon icon={faUser} className="mr-2" />
             Profile
@@ -64,7 +68,9 @@ const Dashboard = () => {
             <Link
               onClick={toggleSidebar}
               to="/dashboard/all-users"
-              className={`hover:text-gray-200 flex items-center p-2 rounded ${isSelected("/dashboard/all-users")}`}
+              className={`hover:text-gray-200 flex items-center p-2 rounded ${isSelected(
+                "/dashboard/all-users"
+              )}`}
             >
               <FontAwesomeIcon icon={faUsers} className="mr-2" />
               All Users
@@ -77,7 +83,9 @@ const Dashboard = () => {
               <Link
                 onClick={toggleSidebar}
                 to="/dashboard/all-donation-requests"
-                className={`hover:text-gray-200 flex items-center p-2 rounded ${isSelected("/dashboard/all-donation-requests")}`}
+                className={`hover:text-gray-200 flex items-center p-2 rounded ${isSelected(
+                  "/dashboard/all-donation-requests"
+                )}`}
               >
                 <FontAwesomeIcon icon={faListAlt} className="mr-2" />
                 All Donation Requests
@@ -87,7 +95,9 @@ const Dashboard = () => {
               <Link
                 onClick={toggleSidebar}
                 to="/dashboard/content-management"
-                className={`hover:text-gray-200 flex items-center p-2 rounded ${isSelected("/dashboard/content-management")}`}
+                className={`hover:text-gray-200 flex items-center p-2 rounded ${isSelected(
+                  "/dashboard/content-management"
+                )}`}
               >
                 <FontAwesomeIcon icon={faEdit} className="mr-2" />
                 Content Management
@@ -95,12 +105,13 @@ const Dashboard = () => {
             </li>
           </>
         )}
-
         <li className="mb-4">
           <Link
             onClick={toggleSidebar}
             to="/dashboard/createDonation"
-            className={`hover:text-gray-200 flex items-center p-2 rounded ${isSelected("/dashboard/createDonation")}`}
+            className={`hover:text-gray-200 flex items-center p-2 rounded ${isSelected(
+              "/dashboard/createDonation"
+            )}`}
           >
             <FontAwesomeIcon icon={faPlusCircle} className="mr-2" />
             Create Donation Request
@@ -112,7 +123,9 @@ const Dashboard = () => {
             <Link
               onClick={toggleSidebar}
               to="/dashboard/my-donation-requests"
-              className={`hover:text-gray-200 flex items-center p-2 rounded ${isSelected("/dashboard/my-donation-requests")}`}
+              className={`hover:text-gray-200 flex items-center p-2 rounded ${isSelected(
+                "/dashboard/my-donation-requests"
+              )}`}
             >
               <FontAwesomeIcon icon={faFileAlt} className="mr-2" />
               My Donation Requests
@@ -123,7 +136,9 @@ const Dashboard = () => {
           <Link
             onClick={toggleSidebar}
             to="/settings"
-            className={`hover:text-gray-200 flex items-center p-2 rounded ${isSelected("/settings")}`}
+            className={`hover:text-gray-200 flex items-center p-2 rounded ${isSelected(
+              "/settings"
+            )}`}
           >
             <FontAwesomeIcon icon={faCogs} className="mr-2" />
             Settings
@@ -135,23 +150,17 @@ const Dashboard = () => {
 
   return (
     <div className="font-ysabeau-infant flex min-h-screen bg-gray-100">
-    
-      <aside className="bg-blue-700 text-white w-64 p-4 hidden md:block">
+      <aside className="bg-gray-800 text-white w-64 p-4 hidden md:block sticky top-0">
         <Link onClick={toggleSidebar} to="/dashboard">
           <h1 className="text-2xl font-bold mb-6">Dashboard</h1>
         </Link>
-
         <nav>{links}</nav>
       </aside>
-
-   
       <div className="flex-1 overflow-x-auto">
-      
         <header className="bg-white shadow-md p-4 flex justify-between items-center md:hidden">
           <Link to="/dashboard">
             <h1 className="text-lg font-bold cursor-pointer">Dashboard</h1>
           </Link>
-
           <button onClick={toggleSidebar}>
             <FontAwesomeIcon
               className="text-lg w-6"
@@ -173,13 +182,11 @@ const Dashboard = () => {
             Log Out
           </button>
         </div>
-
-      
         <aside
           id="mobileSidebar"
-          className={`bg-blue-700 text-white w-64 p-4 fixed top-0 left-0 h-full z-50 transition-transform duration-300 ${
+          className={`bg-gray-800 text-white w-64 p-4 fixed top-0 left-0 h-full z-50 transition-transform duration-300 ${
             isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-          } md:hidden`}
+          } md:hidden sticky top-0`}
         >
           <Link onClick={toggleSidebar} to="/dashboard">
             <h1 className="text-2xl font-bold mb-6">Dashboard</h1>
@@ -187,9 +194,7 @@ const Dashboard = () => {
 
           <nav>{links}</nav>
         </aside>
-
-       
-        <main className="p-6">
+        <main className="">
           <Outlet></Outlet>
         </main>
       </div>
