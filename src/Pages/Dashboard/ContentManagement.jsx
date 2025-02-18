@@ -36,7 +36,11 @@ export default function ContentManagement() {
   };
 
   return (
+<<<<<<< HEAD
     <div>
+=======
+    <div className="p-6">
+>>>>>>> source-repo/main
       <div className="flex justify-end">
         <Link to="/dashboard/content-management/add-blog">
           <button className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">

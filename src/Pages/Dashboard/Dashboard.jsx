@@ -33,7 +33,11 @@ const Dashboard = () => {
   };
 
   const isSelected = (path) => {
+<<<<<<< HEAD
     return location.pathname === path ? "bg-blue-800" : "";
+=======
+    return location.pathname === path ? "border-2 border-red-500/40 bg-red-700/20" : "";
+>>>>>>> source-repo/main
   };
 
   const links = (
@@ -43,7 +47,13 @@ const Dashboard = () => {
           <Link
             onClick={toggleSidebar}
             to="/"
+<<<<<<< HEAD
             className={`hover:text-gray-200 flex items-center p-2 rounded ${isSelected("/")}`}
+=======
+            className={`hover:text-gray-200 flex  items-center p-2 rounded ${isSelected(
+              "/"
+            )}`}
+>>>>>>> source-repo/main
           >
             <FontAwesomeIcon icon={faHome} className="mr-2" />
             Home Page
@@ -53,7 +63,13 @@ const Dashboard = () => {
           <Link
             onClick={toggleSidebar}
             to="/dashboard/profile"
+<<<<<<< HEAD
             className={`hover:text-gray-200 flex items-center p-2 rounded ${isSelected("/dashboard/profile")}`}
+=======
+            className={`hover:text-gray-200 flex items-center p-2 rounded ${isSelected(
+              "/dashboard/profile"
+            )}`}
+>>>>>>> source-repo/main
           >
             <FontAwesomeIcon icon={faUser} className="mr-2" />
             Profile
@@ -64,7 +80,13 @@ const Dashboard = () => {
             <Link
               onClick={toggleSidebar}
               to="/dashboard/all-users"
+<<<<<<< HEAD
               className={`hover:text-gray-200 flex items-center p-2 rounded ${isSelected("/dashboard/all-users")}`}
+=======
+              className={`hover:text-gray-200 flex items-center p-2 rounded ${isSelected(
+                "/dashboard/all-users"
+              )}`}
+>>>>>>> source-repo/main
             >
               <FontAwesomeIcon icon={faUsers} className="mr-2" />
               All Users
@@ -77,7 +99,13 @@ const Dashboard = () => {
               <Link
                 onClick={toggleSidebar}
                 to="/dashboard/all-donation-requests"
+<<<<<<< HEAD
                 className={`hover:text-gray-200 flex items-center p-2 rounded ${isSelected("/dashboard/all-donation-requests")}`}
+=======
+                className={`hover:text-gray-200 flex items-center p-2 rounded ${isSelected(
+                  "/dashboard/all-donation-requests"
+                )}`}
+>>>>>>> source-repo/main
               >
                 <FontAwesomeIcon icon={faListAlt} className="mr-2" />
                 All Donation Requests
@@ -87,7 +115,13 @@ const Dashboard = () => {
               <Link
                 onClick={toggleSidebar}
                 to="/dashboard/content-management"
+<<<<<<< HEAD
                 className={`hover:text-gray-200 flex items-center p-2 rounded ${isSelected("/dashboard/content-management")}`}
+=======
+                className={`hover:text-gray-200 flex items-center p-2 rounded ${isSelected(
+                  "/dashboard/content-management"
+                )}`}
+>>>>>>> source-repo/main
               >
                 <FontAwesomeIcon icon={faEdit} className="mr-2" />
                 Content Management
@@ -95,12 +129,21 @@ const Dashboard = () => {
             </li>
           </>
         )}
+<<<<<<< HEAD
 
+=======
+>>>>>>> source-repo/main
         <li className="mb-4">
           <Link
             onClick={toggleSidebar}
             to="/dashboard/createDonation"
+<<<<<<< HEAD
             className={`hover:text-gray-200 flex items-center p-2 rounded ${isSelected("/dashboard/createDonation")}`}
+=======
+            className={`hover:text-gray-200 flex items-center p-2 rounded ${isSelected(
+              "/dashboard/createDonation"
+            )}`}
+>>>>>>> source-repo/main
           >
             <FontAwesomeIcon icon={faPlusCircle} className="mr-2" />
             Create Donation Request
@@ -112,7 +155,13 @@ const Dashboard = () => {
             <Link
               onClick={toggleSidebar}
               to="/dashboard/my-donation-requests"
+<<<<<<< HEAD
               className={`hover:text-gray-200 flex items-center p-2 rounded ${isSelected("/dashboard/my-donation-requests")}`}
+=======
+              className={`hover:text-gray-200 flex items-center p-2 rounded ${isSelected(
+                "/dashboard/my-donation-requests"
+              )}`}
+>>>>>>> source-repo/main
             >
               <FontAwesomeIcon icon={faFileAlt} className="mr-2" />
               My Donation Requests
@@ -123,7 +172,13 @@ const Dashboard = () => {
           <Link
             onClick={toggleSidebar}
             to="/settings"
+<<<<<<< HEAD
             className={`hover:text-gray-200 flex items-center p-2 rounded ${isSelected("/settings")}`}
+=======
+            className={`hover:text-gray-200 flex items-center p-2 rounded ${isSelected(
+              "/settings"
+            )}`}
+>>>>>>> source-repo/main
           >
             <FontAwesomeIcon icon={faCogs} className="mr-2" />
             Settings
@@ -135,6 +190,7 @@ const Dashboard = () => {
 
   return (
     <div className="font-ysabeau-infant flex min-h-screen bg-gray-100">
+<<<<<<< HEAD
     
       <aside className="bg-blue-700 text-white w-64 p-4 hidden md:block">
         <Link onClick={toggleSidebar} to="/dashboard">
@@ -147,11 +203,23 @@ const Dashboard = () => {
    
       <div className="flex-1 overflow-x-auto">
       
+=======
+      <aside className="bg-gray-800 text-white w-64 p-4 hidden md:block sticky top-0">
+        <Link onClick={toggleSidebar} to="/dashboard">
+          <h1 className="text-2xl font-bold mb-6">Dashboard</h1>
+        </Link>
+        <nav>{links}</nav>
+      </aside>
+      <div className="flex-1 overflow-x-auto">
+>>>>>>> source-repo/main
         <header className="bg-white shadow-md p-4 flex justify-between items-center md:hidden">
           <Link to="/dashboard">
             <h1 className="text-lg font-bold cursor-pointer">Dashboard</h1>
           </Link>
+<<<<<<< HEAD
 
+=======
+>>>>>>> source-repo/main
           <button onClick={toggleSidebar}>
             <FontAwesomeIcon
               className="text-lg w-6"
@@ -173,6 +241,7 @@ const Dashboard = () => {
             Log Out
           </button>
         </div>
+<<<<<<< HEAD
 
       
         <aside
@@ -180,6 +249,13 @@ const Dashboard = () => {
           className={`bg-blue-700 text-white w-64 p-4 fixed top-0 left-0 h-full z-50 transition-transform duration-300 ${
             isSidebarOpen ? "translate-x-0" : "-translate-x-full"
           } md:hidden`}
+=======
+        <aside
+          id="mobileSidebar"
+          className={`bg-gray-800 text-white w-64 p-4 fixed top-0 left-0 h-full z-50 transition-transform duration-300 ${
+            isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+          } md:hidden sticky top-0`}
+>>>>>>> source-repo/main
         >
           <Link onClick={toggleSidebar} to="/dashboard">
             <h1 className="text-2xl font-bold mb-6">Dashboard</h1>
@@ -187,9 +263,13 @@ const Dashboard = () => {
 
           <nav>{links}</nav>
         </aside>
+<<<<<<< HEAD
 
        
         <main className="p-6">
+=======
+        <main className="">
+>>>>>>> source-repo/main
           <Outlet></Outlet>
         </main>
       </div>
@@ -197,4 +277,8 @@ const Dashboard = () => {
   );
 };
 
+<<<<<<< HEAD
 export default Dashboard;
+=======
+export default Dashboard;
+>>>>>>> source-repo/main

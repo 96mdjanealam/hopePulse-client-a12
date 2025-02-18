@@ -46,13 +46,18 @@ export default function PublishedBlogs() {
               className="w-full h-48 md:w-48 md:h-48 lg:w-64 lg:h-64 object-cover rounded-lg"
             />
          
+<<<<<<< HEAD
             <div className="flex-1 w-full">
+=======
+            <div className="w-full flex flex-col gap-4">
+>>>>>>> source-repo/main
               <h2 className="text-xl font-semibold">{blog.title}</h2>
               <p className="text-gray-600">
                 {stripHtmlTags(blog.content).length > 100
                   ? `${stripHtmlTags(blog.content).substring(0,100)}...`
                   : stripHtmlTags(blog.content)}
               </p>
+<<<<<<< HEAD
             </div>
           
             <button
@@ -61,6 +66,15 @@ export default function PublishedBlogs() {
             >
               See Blog
             </button>
+=======
+              <button
+              onClick={() => openModal(blog)}
+              className="w-fit bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
+            >
+              See Blog
+            </button>
+            </div>
+>>>>>>> source-repo/main
           </div>
         ))}
       </div>
