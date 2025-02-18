@@ -130,7 +130,11 @@ export default function Profile() {
   };
 
   return (
+<<<<<<< HEAD
     <div className="container mx-auto px-4">
+=======
+    <div className="container mx-auto p-6">
+>>>>>>> source-repo/main
     {userData && Object.keys(userData).length > 0 && (
       <div className="flex flex-col md:flex-row gap-8">
         {/* Profile Image Section */}

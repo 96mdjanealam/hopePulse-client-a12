@@ -7,6 +7,12 @@ import { AuthContext } from "../../providers/AuthProvider";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
 import Swal from "sweetalert2";
 import { Link, useNavigate } from "react-router-dom";
+<<<<<<< HEAD
+=======
+import { DotLottieReact } from "@lottiefiles/dotlottie-react";
+import bloodFilling from "../../assets/bloodFilling.json";
+import Lottie from "react-lottie";
+>>>>>>> source-repo/main
 
 const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
@@ -43,7 +49,10 @@ export default function Registration() {
     setDistrictUpazillas(upazillas);
   };
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> source-repo/main
   const handleRegister = async (e) => {
     e.preventDefault();
     const form = e.target;
@@ -54,7 +63,11 @@ export default function Registration() {
         title: "Oops...",
         text: "Password didn't match!",
         showConfirmButton: false,
+<<<<<<< HEAD
         timer: 1500
+=======
+        timer: 1500,
+>>>>>>> source-repo/main
       });
       return;
     }
@@ -81,8 +94,12 @@ export default function Registration() {
         createUser(newUser.email, form.password.value)
           .then(() => {
             updateProfileInfo(newUser.name, newUser.image);
+<<<<<<< HEAD
             axiosPublic.post("/users", newUser).then(() => {
             });
+=======
+            axiosPublic.post("/users", newUser).then(() => {});
+>>>>>>> source-repo/main
             Swal.fire({
               icon: "success",
               title: "User created successfully!",
@@ -98,7 +115,11 @@ export default function Registration() {
               title: "Oops...",
               text: "Something went wrong!",
               showConfirmButton: false,
+<<<<<<< HEAD
               timer: 1500
+=======
+              timer: 1500,
+>>>>>>> source-repo/main
             });
           });
       }
@@ -107,6 +128,18 @@ export default function Registration() {
     }
   };
 
+<<<<<<< HEAD
+=======
+  const options = {
+    loop: true,
+    autoplay: true,
+    animationData: bloodFilling,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
+
+>>>>>>> source-repo/main
   return (
     <div>
       {loading ? (
@@ -319,11 +352,15 @@ export default function Registration() {
 
             {/* Right Section: Image */}
             <div className="md:w-1/2 flex justify-center">
+<<<<<<< HEAD
               <img
                 src={bloodDrop_img}
                 alt="Registration"
                 className="w-full max-w-sm object-contain max-h-72 rounded-lg"
               />
+=======
+            <Lottie options={options} height={400} width={400} />;
+>>>>>>> source-repo/main
             </div>
           </div>
         </section>
